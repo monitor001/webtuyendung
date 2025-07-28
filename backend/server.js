@@ -17,6 +17,9 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
+// Trust proxy for Heroku
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet());
 app.use(cors({
@@ -103,7 +106,7 @@ async function setupDatabase() {
         password_hash VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         role VARCHAR(50) DEFAULT 'admin',
-        is_active BOOLEAN DEFAULT true,
+
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         last_login TIMESTAMP
       )
@@ -169,7 +172,7 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const query = 'SELECT * FROM users WHERE email = $1 AND is_active = true';
+    const query = 'SELECT * FROM users WHERE email = $1';
     const result = await pool.query(query, [email]);
     
     if (result.rows.length === 0) {
@@ -241,7 +244,6 @@ app.get('/api/jobs', async (req, res) => {
       SELECT j.*, c.description as company_description, c.industry, c.size, c.website as company_website
       FROM jobs j
       LEFT JOIN companies c ON j.company_name = c.name
-      WHERE j.is_active = true
     `;
     
     const params = [];
@@ -279,7 +281,6 @@ app.get('/api/jobs', async (req, res) => {
     // Get total count for pagination
     let countQuery = `
       SELECT COUNT(*) FROM jobs j
-      WHERE j.is_active = true
     `;
     
     if (search || location || job_type || experience_level) {
@@ -326,7 +327,7 @@ app.get('/api/jobs/:id', async (req, res) => {
       SELECT j.*, c.description as company_description, c.industry, c.size, c.website as company_website
       FROM jobs j
       LEFT JOIN companies c ON j.company_name = c.name
-      WHERE j.id = $1 AND j.is_active = true
+      WHERE j.id = $1
     `;
     
     const result = await pool.query(query, [id]);
@@ -369,7 +370,7 @@ app.get('/api/stats', async (req, res) => {
         AVG(salary_min) as avg_salary_min,
         AVG(salary_max) as avg_salary_max
       FROM jobs 
-      WHERE is_active = true
+
     `;
     
     const result = await pool.query(statsQuery);
@@ -447,7 +448,7 @@ app.get('/api/search', async (req, res) => {
       SELECT j.*, c.description as company_description, c.industry, c.size
       FROM jobs j
       LEFT JOIN companies c ON j.company_name = c.name
-      WHERE j.is_active = true
+
     `;
     
     const params = [];
