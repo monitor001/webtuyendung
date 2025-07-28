@@ -1,4 +1,4 @@
-// API Configuration
+// API Configuration - Updated for production
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://jobconnect-vietnam-backend-b74d68215fab.herokuapp.com'
   : 'http://localhost:3001';
