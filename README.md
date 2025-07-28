@@ -1,224 +1,197 @@
-# JobConnect Vietnam - Nền tảng tuyển dụng hàng đầu Việt Nam
+# JobConnect Vietnam
 
-## 🚀 Tính năng chính
+Nền tảng tuyển dụng hàng đầu Việt Nam - Kết nối doanh nghiệp với ứng viên tài năng.
 
-- **Frontend hiện đại**: React + Vite + Tailwind CSS
-- **Backend API**: Node.js + Express + PostgreSQL
-- **Database**: PostgreSQL với 5 dữ liệu việc làm mẫu
-- **Responsive Design**: Tương thích mọi thiết bị
-- **Pagination**: Phân trang cho danh sách việc làm
-- **Search & Filter**: Tìm kiếm và lọc việc làm
-- **Admin Panel**: Quản lý việc làm (thêm/xóa)
+## 🌟 Tính năng chính
 
-## 📋 Yêu cầu hệ thống
+### Frontend (React + Vite)
+- **Giao diện hiện đại**: Thiết kế responsive với Tailwind CSS
+- **Trang chủ**: Hero section, giới thiệu công ty, thành tựu và cảm nhận
+- **Danh sách việc làm**: Tìm kiếm, lọc và xem chi tiết công việc
+- **Chi tiết công việc**: Thông tin đầy đủ về vị trí, công ty và yêu cầu
+- **Chi tiết công ty**: Thông tin công ty và danh sách việc làm liên quan
+- **Quản lý admin**: Đăng nhập và thêm việc làm mới
 
-- Node.js 16+ 
-- PostgreSQL 12+
-- npm hoặc pnpm
+### Backend (Node.js + Express)
+- **API RESTful**: Endpoints cho việc làm, công ty và thống kê
+- **Xác thực**: JWT authentication cho admin
+- **Database**: PostgreSQL với dữ liệu mẫu
+- **Bảo mật**: Rate limiting, CORS, Helmet
 
-## 🛠️ Cài đặt và chạy
+## 🚀 Công nghệ sử dụng
 
-### 🐳 Cách 1: Sử dụng Docker (Khuyến nghị)
+### Frontend
+- React 18.3.1
+- Vite 6.3.5
+- Tailwind CSS
+- Framer Motion
+- React Hook Form
+- Date-fns
 
+### Backend
+- Node.js 18.x
+- Express.js
+- PostgreSQL
+- JWT Authentication
+- bcrypt
+- express-session
+
+## 📦 Cài đặt và chạy
+
+### Yêu cầu hệ thống
+- Node.js 18.x
+- npm 9.x
+- PostgreSQL
+
+### Cài đặt Frontend
 ```bash
-# Đảm bảo Docker và Docker Compose đã được cài đặt
-# Windows: https://docs.docker.com/desktop/install/windows/
-# macOS: https://docs.docker.com/desktop/install/mac/
-# Ubuntu: https://docs.docker.com/engine/install/ubuntu/
-
 # Clone repository
-git clone https://github.com/your-username/jobconnect-vietnam.git
-cd jobconnect-vietnam
+git clone https://github.com/monitor001/webtuyendung.git
+cd webtuyendung
 
-# Chạy ứng dụng với Docker
-chmod +x docker-start.sh
-./docker-start.sh
+# Cài đặt dependencies
+npm install
 
-# Hoặc chạy thủ công
-docker-compose up --build -d
+# Chạy development server
+npm run dev
+
+# Build cho production
+npm run build
+
+# Preview build
+npm run preview
 ```
 
-### 🔧 Cách 2: Cài đặt thủ công
-
-#### 1. Setup Database
-
+### Cài đặt Backend
 ```bash
-# Cài đặt PostgreSQL (nếu chưa có)
-# Windows: https://www.postgresql.org/download/windows/
-# macOS: brew install postgresql
-# Ubuntu: sudo apt-get install postgresql postgresql-contrib
-
-# Tạo database và bảng
-psql -U postgres
-# Nhập password của PostgreSQL
-
-# Chạy file SQL để tạo database
-\i database.sql
-```
-
-#### 2. Setup Backend
-
-```bash
-# Di chuyển vào thư mục backend
 cd backend
 
 # Cài đặt dependencies
 npm install
 
-# Tạo file .env (copy từ .env.example)
+# Tạo file .env
 cp .env.example .env
+# Cập nhật DATABASE_URL và các biến môi trường khác
 
-# Chỉnh sửa file .env với thông tin database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=jobconnect_vietnam
-DB_USER=postgres
-DB_PASSWORD=your_password
-
-# Chạy backend
-npm run dev
+# Chạy server
+npm start
 ```
 
-#### 3. Setup Frontend
+## 🌐 Deployment
 
+### Heroku
+- **Frontend**: https://jobconnect-vietnam-app.herokuapp.com
+- **Backend**: https://jobconnect-vietnam-backend-b74d68215fab.herokuapp.com
+
+### Docker
 ```bash
-# Di chuyển về thư mục gốc
-cd ..
-
-# Cài đặt dependencies
-npm install
-
-# Chạy frontend
-npm run dev
+# Chạy với Docker Compose
+docker-compose up --build -d
 ```
 
-## 🌐 Truy cập ứng dụng
+## 📊 Cấu trúc dự án
 
-### Docker:
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-- **API Health Check**: http://localhost:3001/api/health
-- **Database**: localhost:5432
+```
+jobconnect-vietnam/
+├── src/
+│   ├── components/
+│   │   ├── JobDetail.jsx
+│   │   ├── CompanyDetail.jsx
+│   │   ├── AddJobForm.jsx
+│   │   └── ui/
+│   ├── assets/
+│   ├── config.js
+│   └── App.jsx
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   └── healthcheck.js
+├── public/
+├── package.json
+├── vite.config.js
+├── docker-compose.yml
+└── README.md
+```
 
-### Development:
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:3001
-- **API Health Check**: http://localhost:3001/api/health
+## 🔐 Tài khoản Admin
 
-## 📊 Dữ liệu mẫu
+- **Email**: hoanguyen25@gmail.com
+- **Password**: Ab123456#
 
-Database đã được tạo với 5 việc làm mẫu:
-
-1. **Frontend Developer (React/Vue.js)** - TechViet Solutions
-2. **Backend Developer (Node.js/Python)** - Digital Innovation Lab  
-3. **UI/UX Designer** - Creative Studio Vietnam
-4. **Data Scientist** - AI Research Center
-5. **DevOps Engineer** - Cloud Solutions Vietnam
-
-## 🔧 API Endpoints
+## 📝 API Endpoints
 
 ### Jobs
-- `GET /api/jobs` - Lấy danh sách việc làm (có pagination)
-- `GET /api/jobs/:id` - Lấy chi tiết việc làm
+- `GET /api/jobs` - Lấy danh sách việc làm
+- `GET /api/jobs/:id` - Chi tiết việc làm
+- `POST /api/jobs` - Thêm việc làm mới (Admin)
+
+### Companies
+- `GET /api/companies` - Lấy danh sách công ty
+- `GET /api/companies/:id` - Chi tiết công ty
+
+### Search
 - `GET /api/search` - Tìm kiếm việc làm
 
-### Companies  
-- `GET /api/companies` - Lấy danh sách công ty
+### Authentication
+- `POST /api/auth/login` - Đăng nhập admin
+- `POST /api/auth/logout` - Đăng xuất
+- `GET /api/auth/me` - Thông tin user hiện tại
 
-### Statistics
-- `GET /api/stats` - Thống kê tổng quan
+## 🎨 Giao diện
 
-### Health Check
-- `GET /api/health` - Kiểm tra trạng thái API
+### Trang chủ
+- Header cố định với navigation
+- Hero section với background đẹp
+- Giới thiệu công ty với ảnh nền
+- Thành tựu và cảm nhận
+- Footer với thông tin liên hệ
 
-## 🎨 Tính năng UI/UX
+### Trang việc làm
+- Danh sách việc làm với filter
+- Chi tiết việc làm
+- Liên kết đến trang công ty
 
-### Sections chính:
-1. **Header** - Navigation cố định
-2. **Hero** - Trang chủ với CTA
-3. **About Us** - Giới thiệu công ty
-4. **Achievements** - Thành tựu và cảm nhận
-5. **Contact** - Liên hệ với QR code
-6. **Footer** - Thông tin và links
+## 🔧 Cấu hình
 
-### Animations:
-- Typing animation cho tiêu đề
-- Scroll-triggered animations
-- Hover effects
-- Loading spinners
-- Smooth transitions
+### Environment Variables
+```env
+# Backend
+DATABASE_URL=postgresql://...
+JWT_SECRET=your-jwt-secret
+SESSION_SECRET=your-session-secret
+NODE_ENV=production
 
-## 🔍 Tìm kiếm và lọc
-
-- **Tìm kiếm theo từ khóa**: title, company, description
-- **Lọc theo địa điểm**: Hà Nội, TP.HCM, Đà Nẵng
-- **Lọc theo loại việc làm**: full-time, part-time, contract
-- **Lọc theo kinh nghiệm**: entry, mid, senior, lead
-- **Lọc theo mức lương**: min/max salary range
-
-## 📱 Responsive Design
-
-- **Desktop**: Layout đầy đủ với sidebar
-- **Tablet**: Grid layout tối ưu
-- **Mobile**: Single column layout
-
-## 🚀 Deployment
-
-### 🐳 Docker Production
-
-```bash
-# Build production images
-docker-compose -f docker-compose.prod.yml up --build -d
-
-# Scale services
-docker-compose up -d --scale backend=3
+# Frontend
+VITE_API_URL=https://jobconnect-vietnam-backend-b74d68215fab.herokuapp.com
 ```
 
-### ☁️ Heroku Deployment
+## 📈 Tính năng nổi bật
 
-```bash
-# Cài đặt Heroku CLI
-# https://devcenter.heroku.com/articles/heroku-cli
-
-# Deploy tự động
-chmod +x deploy-heroku.sh
-./deploy-heroku.sh
-
-# Hoặc deploy thủ công
-heroku create your-app-name
-heroku addons:create heroku-postgresql:mini
-heroku config:set NODE_ENV=production
-git push heroku main
-```
-
-### 📦 Manual Deployment
-
-#### Frontend (Vercel/Netlify)
-```bash
-npm run build
-# Upload dist/ folder
-```
-
-#### Backend (Railway/Render)
-```bash
-# Set environment variables
-# Deploy to platform
-```
+1. **Responsive Design**: Tương thích mọi thiết bị
+2. **Real-time Search**: Tìm kiếm việc làm theo thời gian thực
+3. **Admin Panel**: Quản lý việc làm và người dùng
+4. **Modern UI/UX**: Giao diện hiện đại với animations
+5. **Security**: Bảo mật với JWT và rate limiting
+6. **Scalable**: Kiến trúc có thể mở rộng
 
 ## 🤝 Đóng góp
 
-1. Fork repository
-2. Tạo feature branch
-3. Commit changes
-4. Push to branch
+1. Fork dự án
+2. Tạo feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
 5. Tạo Pull Request
 
 ## 📄 License
 
-MIT License - xem file LICENSE để biết thêm chi tiết.
+Dự án này được phát hành dưới MIT License.
 
 ## 📞 Liên hệ
 
-- **Email**: info@jobconnect.vn
-- **Website**: https://jobconnect.vn
-- **GitHub**: https://github.com/jobconnect-vietnam 
+- **Email**: hoanguyen25@gmail.com
+- **Website**: https://jobconnect-vietnam-app.herokuapp.com
+- **Repository**: https://github.com/monitor001/webtuyendung.git
+
+---
+
+© 2025 JobConnect Vietnam. All rights reserved. 
