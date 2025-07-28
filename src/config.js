@@ -1,6 +1,6 @@
 // API Configuration
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://jobconnect-vietnam-app-588c0b4ff56c.herokuapp.com'
+  ? 'https://jobconnect-vietnam-backend-b74d68215fab.herokuapp.com'
   : 'http://localhost:3001';
 
 export const API_ENDPOINTS = {
