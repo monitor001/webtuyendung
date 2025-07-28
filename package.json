@@ -8,11 +8,12 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npx vite",
+    "build": "npx vite build",
+    "build-simple": "node build-simple.js",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "vite preview --host 0.0.0.0 --port $PORT"
+    "preview": "npx vite preview",
+    "start": "npx vite preview --host 0.0.0.0 --port $PORT"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
