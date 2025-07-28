@@ -44,14 +44,102 @@ app.use(session({
   }
 }));
 
-// Test database connection
+// Test database connection and setup
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Database connection error:', err);
   } else {
     console.log('Database connected successfully');
+    
+    // Setup database tables if they don't exist
+    setupDatabase();
   }
 });
+
+// Setup database tables
+async function setupDatabase() {
+  try {
+    // Create tables
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS jobs (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        company_name VARCHAR(255) NOT NULL,
+        location VARCHAR(255) NOT NULL,
+        salary_min INTEGER,
+        salary_max INTEGER,
+        job_type VARCHAR(50) NOT NULL,
+        experience_level VARCHAR(50) NOT NULL,
+        description TEXT NOT NULL,
+        requirements TEXT,
+        benefits TEXT,
+        deadline_date DATE,
+        posted_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        views_count INTEGER DEFAULT 0,
+        industry VARCHAR(100),
+        size VARCHAR(50)
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS companies (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        description TEXT,
+        industry VARCHAR(100),
+        size VARCHAR(50),
+        founded_year INTEGER,
+        location VARCHAR(255),
+        website VARCHAR(255),
+        email VARCHAR(255),
+        phone VARCHAR(50)
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        role VARCHAR(50) DEFAULT 'admin',
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        last_login TIMESTAMP
+      )
+    `);
+
+    // Insert sample data
+    await pool.query(`
+      INSERT INTO jobs (title, company_name, location, salary_min, salary_max, job_type, experience_level, description, requirements, benefits, industry) VALUES
+      ('Senior React Developer', 'TechViet Solutions', 'Hà Nội', 25000000, 35000000, 'full-time', 'senior', 'Chúng tôi đang tìm kiếm một Senior React Developer tài năng để gia nhập đội ngũ phát triển sản phẩm của chúng tôi.', '3+ năm kinh nghiệm với ReactJS, Thành thạo JavaScript ES6+, HTML5, CSS3', 'Lương cạnh tranh + bonus theo performance, Bảo hiểm sức khỏe toàn diện', 'Technology'),
+      ('Backend Developer', 'Digital Agency', 'TP.HCM', 20000000, 30000000, 'full-time', 'mid', 'Phát triển và duy trì các ứng dụng backend sử dụng Node.js và PostgreSQL.', '2+ năm kinh nghiệm với Node.js, Hiểu biết về RESTful APIs', 'Môi trường làm việc quốc tế, Cơ hội đi onsite Singapore', 'Technology'),
+      ('DevOps Engineer', 'Cloud Solutions', 'Đà Nẵng', 30000000, 40000000, 'full-time', 'senior', 'Quản lý infrastructure và CI/CD pipeline cho các ứng dụng cloud.', '4+ năm kinh nghiệm với AWS/Azure, Kinh nghiệm với Docker và Kubernetes', 'Laptop MacBook Pro cho mỗi nhân viên, Budget đào tạo 10 triệu/năm', 'Technology'),
+      ('UI/UX Designer', 'DesignHub', 'Hà Nội', 18000000, 28000000, 'full-time', 'mid', 'Thiết kế giao diện người dùng và trải nghiệm người dùng cho các ứng dụng web và mobile.', '2+ năm kinh nghiệm với Figma, Adobe Creative Suite', 'Team building, company trip hàng năm, Gym membership miễn phí', 'Design'),
+      ('Data Scientist', 'AI Solutions', 'TP.HCM', 35000000, 50000000, 'full-time', 'senior', 'Phát triển các mô hình machine learning và phân tích dữ liệu.', '3+ năm kinh nghiệm với Python, TensorFlow, PyTorch', 'Cơ hội học hỏi và phát triển không giới hạn, Work-life balance được đảm bảo', 'Technology')
+    `);
+
+    await pool.query(`
+      INSERT INTO companies (name, description, industry, size, founded_year, location, website, email, phone) VALUES
+      ('TechViet Solutions', 'Công ty công nghệ hàng đầu Việt Nam, chuyên phát triển các giải pháp phần mềm và ứng dụng cho thị trường trong nước và quốc tế.', 'Technology', '500-1000', 2015, 'Hà Nội', 'https://techviet.com', 'hr@techviet.com', '+84 24 1234 5678'),
+      ('Digital Agency', 'Công ty chuyên về digital marketing và phát triển web, cung cấp dịch vụ toàn diện cho doanh nghiệp.', 'Marketing', '100-500', 2018, 'TP.HCM', 'https://digitalagency.vn', 'info@digitalagency.vn', '+84 28 9876 5432'),
+      ('Cloud Solutions', 'Công ty chuyên về cloud infrastructure và DevOps services, giúp doanh nghiệp chuyển đổi số.', 'Technology', '200-500', 2019, 'Đà Nẵng', 'https://cloudsolutions.vn', 'contact@cloudsolutions.vn', '+84 236 1111 2222'),
+      ('DesignHub', 'Công ty thiết kế sáng tạo, chuyên về UI/UX design và branding cho các thương hiệu.', 'Design', '50-200', 2020, 'Hà Nội', 'https://designhub.vn', 'hello@designhub.vn', '+84 24 3333 4444'),
+      ('AI Solutions', 'Công ty chuyên về trí tuệ nhân tạo và machine learning, phát triển các giải pháp AI tiên tiến.', 'Technology', '100-300', 2021, 'TP.HCM', 'https://aisolutions.vn', 'info@aisolutions.vn', '+84 28 5555 6666')
+    `);
+
+    // Insert admin user (password: Ab123456#)
+    await pool.query(`
+      INSERT INTO users (email, password_hash, name, role) VALUES 
+      ('hoanguyen25@gmail.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Hoàng Nguyễn', 'admin')
+      ON CONFLICT (email) DO NOTHING
+    `);
+
+    console.log('Database setup completed successfully');
+  } catch (error) {
+    console.error('Database setup error:', error);
+  }
+}
 
 // Authentication middleware
 const authenticateToken = (req, res, next) => {
