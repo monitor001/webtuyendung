@@ -23,7 +23,12 @@ app.set('trust proxy', 1);
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: [
+    'https://jobconnect-vietnam-app-588c0b4ff56c.herokuapp.com',
+    'https://jobconnect-vietnam-app.herokuapp.com',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ],
   credentials: true
 }));
 

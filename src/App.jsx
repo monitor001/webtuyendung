@@ -103,19 +103,28 @@ function App() {
   }, [currentPage])
 
   const checkAdminStatus = async () => {
+    const token = localStorage.getItem('adminToken')
+    if (!token) {
+      return
+    }
+    
     try {
       const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+          'Authorization': `Bearer ${token}`
         }
       })
       const data = await response.json()
       if (data.success) {
         setIsAdmin(true)
+      } else {
+        localStorage.removeItem('adminToken')
+        setIsAdmin(false)
       }
     } catch (error) {
       console.error('Error checking admin status:', error)
       localStorage.removeItem('adminToken')
+      setIsAdmin(false)
     }
   }
 
