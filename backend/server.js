@@ -234,7 +234,17 @@ app.get('/api/auth/me', (req, res) => {
 // GET all jobs
 app.get('/api/jobs', async (req, res) => {
   try {
-    const { page = 1, limit = 3, search, location, job_type, experience_level } = req.query;
+    const { 
+      page = 1, 
+      limit = 3, 
+      search, 
+      location, 
+      job_type, 
+      experience_level, 
+      category,
+      salary,
+      sort = 'newest'
+    } = req.query;
     const offset = (page - 1) * limit;
     
     let query = `
@@ -245,32 +255,76 @@ app.get('/api/jobs', async (req, res) => {
     
     const params = [];
     let paramCount = 0;
+    let whereConditions = [];
     
     if (search) {
       paramCount++;
-      query += ` AND (j.title ILIKE $${paramCount} OR j.company_name ILIKE $${paramCount})`;
+      whereConditions.push(`(j.title ILIKE $${paramCount} OR j.company_name ILIKE $${paramCount} OR j.description ILIKE $${paramCount})`);
       params.push(`%${search}%`);
     }
     
     if (location) {
       paramCount++;
-      query += ` AND j.location ILIKE $${paramCount}`;
+      whereConditions.push(`j.location ILIKE $${paramCount}`);
       params.push(`%${location}%`);
     }
     
     if (job_type) {
       paramCount++;
-      query += ` AND j.job_type = $${paramCount}`;
+      whereConditions.push(`j.job_type = $${paramCount}`);
       params.push(job_type);
     }
     
     if (experience_level) {
       paramCount++;
-      query += ` AND j.experience_level = $${paramCount}`;
+      whereConditions.push(`j.experience_level = $${paramCount}`);
       params.push(experience_level);
     }
     
-    query += ` ORDER BY j.posted_date DESC LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
+    if (category) {
+      paramCount++;
+      whereConditions.push(`c.industry ILIKE $${paramCount}`);
+      params.push(`%${category}%`);
+    }
+    
+    if (salary) {
+      if (salary === '0-10000000') {
+        whereConditions.push(`j.salary_max <= 10000000`);
+      } else if (salary === '10000000-20000000') {
+        whereConditions.push(`j.salary_min >= 10000000 AND j.salary_max <= 20000000`);
+      } else if (salary === '20000000-30000000') {
+        whereConditions.push(`j.salary_min >= 20000000 AND j.salary_max <= 30000000`);
+      } else if (salary === '30000000-50000000') {
+        whereConditions.push(`j.salary_min >= 30000000 AND j.salary_max <= 50000000`);
+      } else if (salary === '50000000+') {
+        whereConditions.push(`j.salary_min >= 50000000`);
+      }
+    }
+    
+    if (whereConditions.length > 0) {
+      query += ` WHERE ${whereConditions.join(' AND ')}`;
+    }
+    
+    // Add sorting
+    let orderBy = '';
+    switch (sort) {
+      case 'oldest':
+        orderBy = 'j.posted_date ASC';
+        break;
+      case 'salary_high':
+        orderBy = 'j.salary_max DESC NULLS LAST';
+        break;
+      case 'salary_low':
+        orderBy = 'j.salary_min ASC NULLS LAST';
+        break;
+      case 'views':
+        orderBy = 'j.views_count DESC NULLS LAST';
+        break;
+      default: // newest
+        orderBy = 'j.posted_date DESC';
+    }
+    
+    query += ` ORDER BY ${orderBy} LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
     params.push(parseInt(limit), offset);
     
     const result = await pool.query(query, params);
@@ -278,25 +332,14 @@ app.get('/api/jobs', async (req, res) => {
     // Get total count for pagination
     let countQuery = `
       SELECT COUNT(*) FROM jobs j
+      LEFT JOIN companies c ON j.company_name = c.name
     `;
     
-    if (search || location || job_type || experience_level) {
-      countQuery = countQuery.replace('WHERE', 'WHERE');
-      if (search) {
-        countQuery += ` AND (j.title ILIKE '%${search}%' OR j.company_name ILIKE '%${search}%')`;
-      }
-      if (location) {
-        countQuery += ` AND j.location ILIKE '%${location}%'`;
-      }
-      if (job_type) {
-        countQuery += ` AND j.job_type = '${job_type}'`;
-      }
-      if (experience_level) {
-        countQuery += ` AND j.experience_level = '${experience_level}'`;
-      }
+    if (whereConditions.length > 0) {
+      countQuery += ` WHERE ${whereConditions.join(' AND ')}`;
     }
     
-    const countResult = await pool.query(countQuery);
+    const countResult = await pool.query(countQuery, params.slice(0, -2));
     const totalJobs = parseInt(countResult.rows[0].count);
     
     res.json({
