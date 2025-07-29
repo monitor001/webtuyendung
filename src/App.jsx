@@ -18,6 +18,10 @@ function App() {
   const [jobTypeFilter, setJobTypeFilter] = useState('')
   const [salaryFilter, setSalaryFilter] = useState('')
   const [sortBy, setSortBy] = useState('newest')
+  const [filterOptions, setFilterOptions] = useState({
+    locations: [],
+    experienceLevels: []
+  })
   const [isAdmin, setIsAdmin] = useState(() => {
     // Check if admin was logged in before
     return localStorage.getItem('adminLoggedIn') === 'true'
@@ -110,8 +114,23 @@ function App() {
   useEffect(() => {
     if (currentPage === 'jobs') {
       fetchJobs()
+      fetchFilterOptions()
     }
   }, [currentPage])
+
+  // Fetch filter options from database
+  const fetchFilterOptions = async () => {
+    try {
+      const response = await fetch(API_ENDPOINTS.FILTERS)
+      const data = await response.json()
+      
+      if (data.success) {
+        setFilterOptions(data.filters)
+      }
+    } catch (error) {
+      console.error('Error fetching filter options:', error)
+    }
+  }
 
     const checkAdminStatus = async () => {
     try {
@@ -204,29 +223,9 @@ function App() {
         filterParams.location = filters.location || locationFilter
       }
       
-      // Add category filter
-      if (filters.category || categoryFilter) {
-        filterParams.category = filters.category || categoryFilter
-      }
-      
       // Add experience filter
       if (filters.experience || experienceFilter) {
         filterParams.experience_level = filters.experience || experienceFilter
-      }
-      
-      // Add job type filter
-      if (filters.job_type || jobTypeFilter) {
-        filterParams.job_type = filters.job_type || jobTypeFilter
-      }
-      
-      // Add salary filter
-      if (filters.salary || salaryFilter) {
-        filterParams.salary = filters.salary || salaryFilter
-      }
-      
-      // Add sort parameter
-      if (filters.sort || sortBy) {
-        filterParams.sort = filters.sort || sortBy
       }
       
       const params = new URLSearchParams(filterParams)
@@ -937,7 +936,7 @@ function App() {
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">🔍 Tìm kiếm & Lọc</h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="relative">
               <input
                 type="text"
@@ -955,32 +954,11 @@ function App() {
               className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">📍 Tất cả địa điểm</option>
-              <option value="Hà Nội">🏛️ Hà Nội</option>
-              <option value="TP.HCM">🏙️ TP.HCM</option>
-              <option value="Đà Nẵng">🏖️ Đà Nẵng</option>
-              <option value="Cần Thơ">🌾 Cần Thơ</option>
-              <option value="Hải Phòng">🚢 Hải Phòng</option>
-              <option value="Nha Trang">🏝️ Nha Trang</option>
-              <option value="Huế">🏛️ Huế</option>
-              <option value="Vũng Tàu">⛵ Vũng Tàu</option>
-            </select>
-            
-            <select 
-              value={categoryFilter} 
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">💼 Tất cả ngành nghề</option>
-              <option value="Công nghệ thông tin">💻 Công nghệ thông tin</option>
-              <option value="Marketing">📢 Marketing</option>
-              <option value="Thiết kế">🎨 Thiết kế</option>
-              <option value="Phân tích dữ liệu">📊 Phân tích dữ liệu</option>
-              <option value="Tài chính">💰 Tài chính</option>
-              <option value="Giáo dục">📚 Giáo dục</option>
-              <option value="Y tế">🏥 Y tế</option>
-              <option value="Du lịch">✈️ Du lịch</option>
-              <option value="Bán hàng">🛒 Bán hàng</option>
-              <option value="Nhân sự">👥 Nhân sự</option>
+              {filterOptions.locations.map((location, index) => (
+                <option key={index} value={location}>
+                  📍 {location}
+                </option>
+              ))}
             </select>
             
             <select 
@@ -989,53 +967,11 @@ function App() {
               className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">🎯 Tất cả kinh nghiệm</option>
-              <option value="Intern">🎓 Intern</option>
-              <option value="Fresher">🌱 Fresher</option>
-              <option value="Junior">👨‍💼 Junior (1-3 năm)</option>
-              <option value="Middle">👨‍💻 Middle (3-5 năm)</option>
-              <option value="Senior">👨‍🔬 Senior (5+ năm)</option>
-              <option value="Manager">👔 Manager</option>
-              <option value="Director">🎩 Director</option>
-            </select>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <select 
-              value={jobTypeFilter} 
-              onChange={(e) => setJobTypeFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">⏰ Tất cả loại việc làm</option>
-              <option value="Full-time">🕐 Full-time</option>
-              <option value="Part-time">⏱️ Part-time</option>
-              <option value="Contract">📋 Contract</option>
-              <option value="Remote">🏠 Remote</option>
-              <option value="Hybrid">🏢 Hybrid</option>
-            </select>
-            
-            <select 
-              value={salaryFilter} 
-              onChange={(e) => setSalaryFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">💰 Tất cả mức lương</option>
-              <option value="0-10000000">💰 Dưới 10 triệu</option>
-              <option value="10000000-20000000">💰 10-20 triệu</option>
-              <option value="20000000-30000000">💰 20-30 triệu</option>
-              <option value="30000000-50000000">💰 30-50 triệu</option>
-              <option value="50000000+">💰 Trên 50 triệu</option>
-            </select>
-            
-            <select 
-              value={sortBy} 
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="newest">📅 Mới nhất</option>
-              <option value="oldest">📅 Cũ nhất</option>
-              <option value="salary_high">💰 Lương cao nhất</option>
-              <option value="salary_low">💰 Lương thấp nhất</option>
-              <option value="views">👁️ Nhiều lượt xem</option>
+              {filterOptions.experienceLevels.map((level, index) => (
+                <option key={index} value={level}>
+                  🎯 {level}
+                </option>
+              ))}
             </select>
           </div>
           
@@ -1045,11 +981,7 @@ function App() {
                 onClick={() => {
                   setSearchTerm('')
                   setLocationFilter('')
-                  setCategoryFilter('')
                   setExperienceFilter('')
-                  setJobTypeFilter('')
-                  setSalaryFilter('')
-                  setSortBy('newest')
                 }}
                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
               >
@@ -1059,11 +991,7 @@ function App() {
                 onClick={() => fetchJobs(1, {
                   search: searchTerm,
                   location: locationFilter,
-                  category: categoryFilter,
-                  experience: experienceFilter,
-                  job_type: jobTypeFilter,
-                  salary: salaryFilter,
-                  sort: sortBy
+                  experience: experienceFilter
                 })}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >

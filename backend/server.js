@@ -231,6 +231,30 @@ app.get('/api/auth/me', (req, res) => {
   }
 });
 
+// GET filter options from database
+app.get('/api/filters', async (req, res) => {
+  try {
+    // Get unique locations
+    const locationsQuery = 'SELECT DISTINCT location FROM jobs WHERE location IS NOT NULL ORDER BY location';
+    const locationsResult = await pool.query(locationsQuery);
+    
+    // Get unique experience levels
+    const experienceQuery = 'SELECT DISTINCT experience_level FROM jobs WHERE experience_level IS NOT NULL ORDER BY experience_level';
+    const experienceResult = await pool.query(experienceQuery);
+    
+    res.json({
+      success: true,
+      filters: {
+        locations: locationsResult.rows.map(row => row.location),
+        experienceLevels: experienceResult.rows.map(row => row.experience_level)
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching filter options:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // GET all jobs
 app.get('/api/jobs', async (req, res) => {
   try {
@@ -239,11 +263,7 @@ app.get('/api/jobs', async (req, res) => {
       limit = 3, 
       search, 
       location, 
-      job_type, 
-      experience_level, 
-      category,
-      salary,
-      sort = 'newest'
+      experience_level
     } = req.query;
     const offset = (page - 1) * limit;
     
@@ -269,62 +289,17 @@ app.get('/api/jobs', async (req, res) => {
       params.push(`%${location}%`);
     }
     
-    if (job_type) {
-      paramCount++;
-      whereConditions.push(`j.job_type = $${paramCount}`);
-      params.push(job_type);
-    }
-    
     if (experience_level) {
       paramCount++;
       whereConditions.push(`j.experience_level = $${paramCount}`);
       params.push(experience_level);
     }
     
-    if (category) {
-      paramCount++;
-      whereConditions.push(`c.industry ILIKE $${paramCount}`);
-      params.push(`%${category}%`);
-    }
-    
-    if (salary) {
-      if (salary === '0-10000000') {
-        whereConditions.push(`j.salary_max <= 10000000`);
-      } else if (salary === '10000000-20000000') {
-        whereConditions.push(`j.salary_min >= 10000000 AND j.salary_max <= 20000000`);
-      } else if (salary === '20000000-30000000') {
-        whereConditions.push(`j.salary_min >= 20000000 AND j.salary_max <= 30000000`);
-      } else if (salary === '30000000-50000000') {
-        whereConditions.push(`j.salary_min >= 30000000 AND j.salary_max <= 50000000`);
-      } else if (salary === '50000000+') {
-        whereConditions.push(`j.salary_min >= 50000000`);
-      }
-    }
-    
     if (whereConditions.length > 0) {
       query += ` WHERE ${whereConditions.join(' AND ')}`;
     }
     
-    // Add sorting
-    let orderBy = '';
-    switch (sort) {
-      case 'oldest':
-        orderBy = 'j.posted_date ASC';
-        break;
-      case 'salary_high':
-        orderBy = 'j.salary_max DESC NULLS LAST';
-        break;
-      case 'salary_low':
-        orderBy = 'j.salary_min ASC NULLS LAST';
-        break;
-      case 'views':
-        orderBy = 'j.views_count DESC NULLS LAST';
-        break;
-      default: // newest
-        orderBy = 'j.posted_date DESC';
-    }
-    
-    query += ` ORDER BY ${orderBy} LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
+    query += ` ORDER BY j.posted_date DESC LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
     params.push(parseInt(limit), offset);
     
     const result = await pool.query(query, params);

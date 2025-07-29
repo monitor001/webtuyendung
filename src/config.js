@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   SEARCH: `${API_BASE_URL}/api/search`,
   COMPANIES: `${API_BASE_URL}/api/companies`,
   STATS: `${API_BASE_URL}/api/stats`,
+  FILTERS: `${API_BASE_URL}/api/filters`,
   AUTH: {
     LOGIN: `${API_BASE_URL}/api/auth/login`,
     LOGOUT: `${API_BASE_URL}/api/auth/logout`,
