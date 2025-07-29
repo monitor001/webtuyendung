@@ -1,151 +1,165 @@
-# 🚀 JobConnect Vietnam - Nền tảng tuyển dụng hàng đầu Việt Nam
+# HHR Việt Nam - Nền tảng Tuyển dụng Hàng đầu
 
-## 📋 Tổng quan
+## 🚀 Giới thiệu
 
-JobConnect Vietnam là một nền tảng tuyển dụng hiện đại, được xây dựng với công nghệ full-stack để kết nối nhà tuyển dụng và ứng viên tài năng. Dự án được phát triển với React, Node.js, PostgreSQL và được deploy trên Heroku.
+**HHR Việt Nam** là nền tảng tuyển dụng hàng đầu Việt Nam, chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất. Dự án được xây dựng với công nghệ hiện đại, giao diện thân thiện và trải nghiệm người dùng tối ưu.
 
 ## ✨ Tính năng chính
 
-### 🎯 Cho ứng viên
-- **Tìm kiếm việc làm thông minh** với bộ lọc đa tiêu chí
-- **Xem chi tiết công việc** với thông tin đầy đủ
-- **Thông tin công ty chi tiết** với đánh giá và liên hệ
-- **Phân trang tối ưu** - 3 việc làm cho mỗi trang
-- **Giao diện responsive** hoạt động trên mọi thiết bị
+### 🔍 Tìm kiếm & Lọc thông minh
+- **Tìm kiếm đa tiêu chí:** Title, công ty, mô tả
+- **Lọc theo địa điểm:** Hà Nội, TP.HCM, Đà Nẵng và nhiều thành phố khác
+- **Lọc theo kinh nghiệm:** Intern, Fresher, Junior, Middle, Senior, Manager, Director
+- **Dữ liệu động:** Lấy từ cơ sở dữ liệu thực tế
 
-### 🔧 Cho admin
-- **Quản lý việc làm** - Thêm, sửa, xóa công việc
-- **Quản lý thông tin công ty** - Cập nhật thông tin chi tiết
-- **Đăng nhập admin** với xác thực đơn giản
-- **CRUD đầy đủ** cho cả việc làm và công ty
+### 💼 Quản lý việc làm
+- **Xem chi tiết công việc:** Thông tin đầy đủ, mô tả chi tiết
+- **Thông tin công ty:** Mô tả, ngành nghề, quy mô, năm thành lập
+- **CRUD operations:** Tạo, đọc, cập nhật, xóa việc làm (Admin)
+- **Xóa nhiều việc làm:** Chọn và xóa hàng loạt
 
-### 🏢 Cho doanh nghiệp
-- **Đăng tin tuyển dụng** dễ dàng
-- **Quản lý hồ sơ ứng viên**
-- **Thống kê chi tiết** về lượt xem và ứng tuyển
+### 👨‍💼 Quản trị hệ thống
+- **Đăng nhập Admin:** Quản lý việc làm và công ty
+- **Chỉnh sửa thông tin:** Cập nhật việc làm và thông tin công ty
+- **Quản lý session:** Đăng nhập/đăng xuất an toàn
+
+### 📱 Giao diện hiện đại
+- **Responsive design:** Tương thích mọi thiết bị
+- **Animations:** Hiệu ứng mượt mà với Framer Motion
+- **UI/UX tối ưu:** Giao diện đẹp, dễ sử dụng
+- **Pagination:** Phân trang 3 việc làm/trang
 
 ## 🛠️ Công nghệ sử dụng
 
 ### Frontend
-- **React 18.3.1** - UI framework hiện đại
+- **React 18.3.1** - Framework chính
 - **Vite 6.3.5** - Build tool nhanh
 - **Tailwind CSS** - Styling framework
-- **Framer Motion** - Animation library
+- **Framer Motion** - Animations
 - **React Hook Form** - Form handling
-- **Date-fns** - Date manipulation
+- **Date-fns** - Date utilities
 
 ### Backend
 - **Node.js 18.x** - Runtime environment
 - **Express.js** - Web framework
-- **PostgreSQL** - Database
+- **PostgreSQL** - Database chính
 - **express-session** - Session management
 - **express-rate-limit** - Rate limiting
-- **CORS** - Cross-origin resource sharing
+- **helmet** - Security headers
+- **cors** - Cross-origin resource sharing
 
 ### Deployment
 - **Heroku** - Cloud platform
+- **Docker** - Containerization
 - **Git** - Version control
-- **Docker** - Containerization (optional)
 
-## 🚀 Cài đặt và chạy
+## 📊 Cấu trúc Database
+
+### Bảng Jobs
+```sql
+- id (SERIAL PRIMARY KEY)
+- title (VARCHAR)
+- company_name (VARCHAR)
+- location (VARCHAR)
+- salary_min/max (INTEGER)
+- job_type (VARCHAR)
+- experience_level (VARCHAR)
+- description (TEXT)
+- requirements/benefits (TEXT)
+- posted_date (TIMESTAMP)
+- deadline_date (DATE)
+- views_count (INTEGER)
+```
+
+### Bảng Companies
+```sql
+- id (SERIAL PRIMARY KEY)
+- name (VARCHAR)
+- description (TEXT)
+- industry (VARCHAR)
+- size (VARCHAR)
+- founded_year (INTEGER)
+- website (VARCHAR)
+- location (VARCHAR)
+- contact_email/phone (VARCHAR)
+```
+
+## 🚀 Cài đặt & Chạy
 
 ### Yêu cầu hệ thống
-- Node.js 18.x trở lên
-- PostgreSQL 12.x trở lên
+- Node.js 18.x
+- PostgreSQL 12+
 - Git
 
-### Cài đặt
-
-1. **Clone repository**
+### Cài đặt Frontend
 ```bash
-git clone https://github.com/monitor001/webtuyendung.git
-cd webtuyendung
-```
+# Clone repository
+git clone <repository-url>
+cd hhr-vietnam
 
-2. **Cài đặt dependencies**
-```bash
-# Frontend
+# Cài đặt dependencies
 npm install
 
-# Backend
-cd backend
-npm install
-```
-
-3. **Cấu hình database**
-```bash
-# Tạo database PostgreSQL
-createdb jobconnect_vietnam
-
-# Import schema
-psql jobconnect_vietnam < database.sql
-```
-
-4. **Cấu hình environment variables**
-```bash
-# Backend (.env)
-DATABASE_URL=postgresql://username:password@localhost:5432/jobconnect_vietnam
-SESSION_SECRET=your-session-secret
-NODE_ENV=development
-CORS_ORIGIN=http://localhost:5173
-
-# Frontend (.env)
-VITE_API_URL=http://localhost:3001
-```
-
-5. **Chạy ứng dụng**
-```bash
-# Backend (port 3001)
-cd backend
-npm start
-
-# Frontend (port 5173)
+# Chạy development server
 npm run dev
+
+# Build production
+npm run build
 ```
 
-## 📊 Cấu trúc dự án
+### Cài đặt Backend
+```bash
+cd backend
 
+# Cài đặt dependencies
+npm install
+
+# Cấu hình database
+# Tạo file .env với DATABASE_URL
+
+# Chạy development server
+npm run dev
+
+# Chạy production
+npm start
 ```
-webtuyendung/
-├── src/                    # Frontend source
-│   ├── components/         # React components
-│   ├── assets/            # Static assets
-│   ├── App.jsx           # Main component
-│   └── config.js         # API configuration
-├── backend/               # Backend source
-│   ├── server.js         # Express server
-│   ├── package.json      # Dependencies
-│   └── database.sql      # Database schema
-├── database.sql          # Main database schema
-├── package.json          # Frontend dependencies
-└── README.md            # Documentation
+
+### Cấu hình Environment Variables
+
+#### Frontend (.env)
+```env
+VITE_API_URL=https://hhr-backend.herokuapp.com
 ```
 
-## 🔐 Tài khoản Admin
+#### Backend (.env)
+```env
+NODE_ENV=production
+DATABASE_URL=postgresql://...
+SESSION_SECRET=your-secret-key
+CORS_ORIGIN=https://hhr-app.herokuapp.com
+```
 
-Tài khoản admin được cấp riêng cho quản trị viên. Vui lòng liên hệ để được cấp quyền truy cập.
-
-## 📝 API Endpoints
+## 📱 API Endpoints
 
 ### Jobs
-- `GET /api/jobs` - Lấy danh sách việc làm (phân trang)
-- `POST /api/jobs` - Thêm việc làm mới
+- `GET /api/jobs` - Lấy danh sách việc làm
+- `POST /api/jobs` - Tạo việc làm mới
 - `PUT /api/jobs/:id` - Cập nhật việc làm
 - `DELETE /api/jobs/:id` - Xóa việc làm
+- `DELETE /api/jobs` - Xóa nhiều việc làm
 
 ### Companies
 - `GET /api/companies` - Lấy danh sách công ty
 - `GET /api/companies/:name` - Lấy thông tin công ty
 - `PUT /api/companies/:name` - Cập nhật thông tin công ty
 
+### Filters
+- `GET /api/filters` - Lấy tùy chọn bộ lọc
+
 ### Authentication
 - `POST /api/auth/login` - Đăng nhập admin
 - `POST /api/auth/logout` - Đăng xuất
 - `GET /api/auth/me` - Kiểm tra trạng thái đăng nhập
-
-### Search & Stats
-- `GET /api/search` - Tìm kiếm việc làm
-- `GET /api/stats` - Thống kê tổng quan
 
 ## 🌐 Deployment
 
@@ -160,41 +174,34 @@ cd backend
 git push heroku master
 ```
 
-### URLs
-- **Frontend:** https://jobconnect-vietnam-app-588c0b4ff56c.herokuapp.com
-- **Backend:** https://jobconnect-vietnam-backend-b74d68215fab.herokuapp.com
+## 📈 Tính năng nổi bật
 
-## 🔧 Tính năng kỹ thuật
+### 🔍 Bộ lọc thông minh
+- Lọc theo địa điểm từ database
+- Lọc theo kinh nghiệm từ database
+- Tìm kiếm trong title, company, description
+- Reset bộ lọc nhanh chóng
 
-### Bảo mật
-- **Rate limiting** - 1000 requests/15 phút
-- **CORS configuration** - Cross-origin requests
-- **Session management** - Secure cookies
-- **Input validation** - Sanitize user input
+### 💼 Quản lý việc làm
+- Xem chi tiết công việc đầy đủ
+- Chỉnh sửa thông tin việc làm (Admin)
+- Xóa việc làm (Admin)
+- Xóa nhiều việc làm cùng lúc
 
-### Performance
-- **Lazy loading** - Tải component theo nhu cầu
-- **Image optimization** - Compressed assets
-- **Database indexing** - Optimized queries
-- **Caching** - Static asset caching
+### 🏢 Thông tin công ty
+- Hiển thị thông tin chi tiết công ty
+- Chỉnh sửa thông tin công ty (Admin)
+- Liên kết với việc làm
 
-### UX/UI
-- **Responsive design** - Mobile-first approach
-- **Smooth animations** - Framer Motion
-- **Loading states** - User feedback
-- **Error handling** - Graceful error messages
-
-## 📈 Thống kê
-
-- **5 công việc mẫu** gốc
-- **3 việc làm/trang** hiển thị
-- **Phân trang** hoàn chỉnh
-- **CRUD đầy đủ** cho admin
-- **Rate limiting** bảo vệ server
+### 📱 Giao diện responsive
+- Tương thích mobile/desktop
+- Animations mượt mà
+- Loading states
+- Error handling
 
 ## 🤝 Đóng góp
 
-1. Fork repository
+1. Fork dự án
 2. Tạo feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to branch (`git push origin feature/AmazingFeature`)
@@ -202,14 +209,15 @@ git push heroku master
 
 ## 📄 License
 
-Dự án này được phát triển bởi JobConnect Vietnam Team.
+Dự án này được phát hành dưới MIT License.
 
 ## 📞 Liên hệ
 
-- **Website:** https://jobconnect-vietnam-app-588c0b4ff56c.herokuapp.com
-- **Email:** contact@jobconnect.vn
-- **Phone:** +84 24 1234 5678
+**HHR Việt Nam**
+- Website: https://hhr-vietnam.herokuapp.com
+- Email: contact@hhr-vietnam.com
+- Phone: +84 28 1234 5678
 
 ---
 
-**JobConnect Vietnam** - Kết nối tài năng với cơ hội 🚀 
+© 2025 HHR Việt Nam. Tất cả quyền được bảo lưu. 

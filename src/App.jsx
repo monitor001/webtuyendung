@@ -502,7 +502,7 @@ function App() {
             </span>
           </h2>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            Nền tảng tuyển dụng hàng đầu Việt Nam - Nơi kết nối nhà tuyển dụng và ứng viên tài năng
+            Nền tảng tuyển dụng uy tín tại Việt Nam - Nơi kết nối nhà tuyển dụng và ứng viên tài năng
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -805,7 +805,7 @@ function App() {
                 </div>
               </div>
               <p className="text-gray-300 mb-6 leading-relaxed">
-                HHR Vietnam là nền tảng tuyển dụng hàng đầu Việt Nam, 
+                HHR Vietnam là nền tảng tuyển dụng uy tín tại Việt Nam, 
                 chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
               </p>
               <div className="flex space-x-4">
