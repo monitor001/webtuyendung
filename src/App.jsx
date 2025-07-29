@@ -422,8 +422,9 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Reload trang sau khi xóa thành công
-        window.location.reload()
+        // Cập nhật state local thay vì reload trang
+        setJobs(jobs.filter(job => job.id !== jobId))
+        alert('Xóa việc làm thành công!')
       } else {
         console.error('Delete failed:', data.message)
         alert('Có lỗi xảy ra khi xóa việc làm!')
@@ -449,8 +450,11 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Reload trang sau khi xóa thành công
-        window.location.reload()
+        // Cập nhật state local thay vì reload trang
+        setJobs(jobs.filter(job => !jobIds.includes(job.id)))
+        setSelectedJobs([])
+        setIsSelectMode(false)
+        alert(`Đã xóa thành công ${jobIds.length} việc làm!`)
       } else {
         console.error('Delete failed:', data.message)
         alert('Có lỗi xảy ra khi xóa việc làm!')

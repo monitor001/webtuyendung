@@ -130,8 +130,9 @@ const JobDetail = ({ job, onBack, onViewCompany, onJobUpdate, onJobDelete, isAdm
 
       if (response.ok) {
         alert('Xóa việc làm thành công!')
-        // Reload trang sau khi xóa thành công
-        window.location.reload()
+        // Quay lại trang danh sách việc làm sau khi xóa
+        onJobDelete(job.id)
+        onBack()
       } else {
         alert('Có lỗi xảy ra khi xóa việc làm!')
       }
