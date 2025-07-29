@@ -511,7 +511,7 @@ function App() {
   const renderHomePage = () => (
     <>
       {/* Hero Section */}
-      <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBg})` }}
@@ -520,20 +520,20 @@ function App() {
         </div>
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
-          <h2 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
             HHR Việt Nam
             <span className="block bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
               Kết nối nghề nghiệp
             </span>
           </h2>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 px-4">
             Nền tảng tuyển dụng uy tín tại Việt Nam - Nơi kết nối nhà tuyển dụng và ứng viên tài năng
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => setCurrentPage('jobs')}
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-lg rounded-md transition-colors"
+              className="px-6 sm:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-base sm:text-lg rounded-md transition-colors"
             >
               Tìm việc ngay
             </button>
@@ -543,7 +543,7 @@ function App() {
       </section>
 
       {/* About Us Section - Full Screen */}
-      <section id="about" className="relative h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center overflow-hidden">
+      <section id="about" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center overflow-hidden py-20">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-50 transform scale-110"
           style={{ 
@@ -551,38 +551,38 @@ function App() {
           }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/80 via-white/70 to-indigo-50/80"></div>
-        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex flex-col justify-center">
           <div className="text-center mb-8">
-                      <h3 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
+                      <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
             Về HHR Việt Nam
           </h3>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
+            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
           </div>
           
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
               {/* Company Introduction */}
               <div className="lg:col-span-2 animate-on-scroll">
-                <h4 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6 leading-tight typing-animation">
+                <h4 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6 leading-tight typing-animation">
                   {showAnimations ? typedText : 'Kết nối tài năng với cơ hội'}
                 </h4>
                 <div className="space-y-4 text-gray-800 leading-relaxed stagger-animation">
-                  <div className="bg-gradient-to-r from-blue-50/60 to-indigo-50/60 backdrop-blur-sm p-6 rounded-2xl border-l-4 border-blue-500 hover:scale-105 transition-transform duration-300">
-                    <p className="text-lg font-semibold leading-relaxed">
+                  <div className="bg-gradient-to-r from-blue-50/60 to-indigo-50/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border-l-4 border-blue-500 hover:scale-105 transition-transform duration-300">
+                    <p className="text-base sm:text-lg font-semibold leading-relaxed">
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">HHR Vietnam</span> là công ty tuyển dụng uy tín tại Việt Nam, 
                       chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
                     </p>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-indigo-50/60 to-purple-50/60 backdrop-blur-sm p-6 rounded-2xl border-l-4 border-indigo-500 hover:scale-105 transition-transform duration-300">
-                    <p className="text-lg font-semibold leading-relaxed">
+                  <div className="bg-gradient-to-r from-indigo-50/60 to-purple-50/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border-l-4 border-indigo-500 hover:scale-105 transition-transform duration-300">
+                    <p className="text-base sm:text-lg font-semibold leading-relaxed">
                       Với sứ mệnh <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-700 font-bold animate-pulse-slow">kiến tạo tương lai</span>, chúng tôi không ngừng nỗ lực 
                       để mang đến những giải pháp tuyển dụng đột phá và sáng tạo.
                     </p>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-green-50/60 to-blue-50/60 backdrop-blur-sm p-6 rounded-2xl border-l-4 border-green-500 hover:scale-105 transition-transform duration-300">
-                    <p className="text-lg font-semibold leading-relaxed">
+                  <div className="bg-gradient-to-r from-green-50/60 to-blue-50/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border-l-4 border-green-500 hover:scale-105 transition-transform duration-300">
+                    <p className="text-base sm:text-lg font-semibold leading-relaxed">
                       Chúng tôi cam kết giúp doanh nghiệp tìm kiếm <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-700 font-bold animate-pulse-slow">nhân tài xuất sắc</span> và 
                       ứng viên phát triển sự nghiệp bền vững.
                     </p>
@@ -591,28 +591,28 @@ function App() {
               </div>
               
               {/* Company Values */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border border-gray-100 animate-on-scroll">
-                <h5 className="text-lg font-bold text-gray-800 mb-4 text-center animate-bounce-in">Giá trị cốt lõi</h5>
-                <div className="grid grid-cols-1 gap-4 stagger-animation">
-                  <div className="text-center p-4 bg-gradient-to-br from-blue-50/70 to-blue-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <div className="text-4xl mb-2 animate-bounce-in">🎯</div>
-                    <h6 className="text-lg font-bold text-blue-700 mb-2">Sứ mệnh</h6>
-                    <p className="text-sm text-gray-700 leading-relaxed">Kết nối tài năng với cơ hội</p>
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-4 sm:p-6 border border-gray-100 animate-on-scroll">
+                <h5 className="text-base sm:text-lg font-bold text-gray-800 mb-4 text-center animate-bounce-in">Giá trị cốt lõi</h5>
+                <div className="grid grid-cols-1 gap-3 sm:gap-4 stagger-animation">
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-blue-50/70 to-blue-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    <div className="text-3xl sm:text-4xl mb-2 animate-bounce-in">🎯</div>
+                    <h6 className="text-base sm:text-lg font-bold text-blue-700 mb-2">Sứ mệnh</h6>
+                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">Kết nối tài năng với cơ hội</p>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-indigo-50/70 to-indigo-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <div className="text-4xl mb-2 animate-bounce-in">🌟</div>
-                    <h6 className="text-lg font-bold text-indigo-700 mb-2">Tầm nhìn</h6>
-                    <p className="text-sm text-gray-700 leading-relaxed">Lãnh đạo thị trường tuyển dụng</p>
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-indigo-50/70 to-indigo-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    <div className="text-3xl sm:text-4xl mb-2 animate-bounce-in">🌟</div>
+                    <h6 className="text-base sm:text-lg font-bold text-indigo-700 mb-2">Tầm nhìn</h6>
+                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">Lãnh đạo thị trường tuyển dụng</p>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-green-50/70 to-green-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <div className="text-4xl mb-2 animate-bounce-in">💎</div>
-                    <h6 className="text-lg font-bold text-green-700 mb-2">Giá trị</h6>
-                    <p className="text-sm text-gray-700 leading-relaxed">Chất lượng và uy tín</p>
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-green-50/70 to-green-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    <div className="text-3xl sm:text-4xl mb-2 animate-bounce-in">💎</div>
+                    <h6 className="text-base sm:text-lg font-bold text-green-700 mb-2">Giá trị</h6>
+                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">Chất lượng và uy tín</p>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-purple-50/70 to-purple-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <div className="text-4xl mb-2 animate-bounce-in">🚀</div>
-                    <h6 className="text-lg font-bold text-purple-700 mb-2">Mục tiêu</h6>
-                    <p className="text-sm text-gray-700 leading-relaxed">Đổi mới và phát triển</p>
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-purple-50/70 to-purple-100/70 backdrop-blur-sm rounded-xl hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    <div className="text-3xl sm:text-4xl mb-2 animate-bounce-in">🚀</div>
+                    <h6 className="text-base sm:text-lg font-bold text-purple-700 mb-2">Mục tiêu</h6>
+                    <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">Đổi mới và phát triển</p>
                   </div>
                 </div>
               </div>
