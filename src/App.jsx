@@ -40,6 +40,7 @@ function App() {
   const [selectedCompany, setSelectedCompany] = useState(null)
   const [selectedJobs, setSelectedJobs] = useState([])
   const [isSelectMode, setIsSelectMode] = useState(false)
+  const [activeSection, setActiveSection] = useState('home')
   
   // Animation states
   const [isTyping, setIsTyping] = useState(false)
@@ -116,6 +117,30 @@ function App() {
       fetchJobs()
       fetchFilterOptions()
     }
+  }, [currentPage])
+
+  // Track active section on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (currentPage !== 'home') return
+
+      const sections = ['home', 'about', 'achievements', 'contact']
+      const scrollPosition = window.scrollY + 100
+
+      for (const section of sections) {
+        const element = document.getElementById(section)
+        if (element) {
+          const { offsetTop, offsetHeight } = element
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            setActiveSection(section)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [currentPage])
 
   // Fetch filter options from database
@@ -544,7 +569,7 @@ function App() {
                 <div className="space-y-4 text-gray-800 leading-relaxed stagger-animation">
                   <div className="bg-gradient-to-r from-blue-50/60 to-indigo-50/60 backdrop-blur-sm p-6 rounded-2xl border-l-4 border-blue-500 hover:scale-105 transition-transform duration-300">
                     <p className="text-lg font-semibold leading-relaxed">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">HHR Vietnam</span> là công ty tuyển dụng hàng đầu Việt Nam, 
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">HHR Vietnam</span> là công ty tuyển dụng uy tín tại Việt Nam, 
                       chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
                     </p>
                   </div>
@@ -1155,10 +1180,11 @@ function App() {
               <button 
                 onClick={() => {
                   setCurrentPage('home');
+                  setActiveSection('home');
                   document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
                 }}
                 className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
-                  currentPage === 'home' 
+                  currentPage === 'home' && activeSection === 'home'
                     ? 'text-blue-600 bg-blue-50 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                 }`}
@@ -1168,27 +1194,42 @@ function App() {
               <button 
                 onClick={() => {
                   setCurrentPage('home');
+                  setActiveSection('about');
                   document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  currentPage === 'home' && activeSection === 'about'
+                    ? 'text-blue-600 bg-blue-50 shadow-md' 
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                }`}
               >
                 Về chúng tôi
               </button>
               <button 
                 onClick={() => {
                   setCurrentPage('home');
+                  setActiveSection('achievements');
                   document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  currentPage === 'home' && activeSection === 'achievements'
+                    ? 'text-blue-600 bg-blue-50 shadow-md' 
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                }`}
               >
                 Thành tựu
               </button>
               <button 
                 onClick={() => {
                   setCurrentPage('home');
+                  setActiveSection('contact');
                   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  currentPage === 'home' && activeSection === 'contact'
+                    ? 'text-white bg-blue-600 shadow-md' 
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                }`}
               >
                 Liên hệ
               </button>
@@ -1296,11 +1337,12 @@ function App() {
                 <button 
                   onClick={() => {
                     setCurrentPage('home'); 
+                    setActiveSection('home');
                     setIsMenuOpen(false);
                     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
                   }}
                   className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
-                    currentPage === 'home' 
+                    currentPage === 'home' && activeSection === 'home'
                       ? 'text-blue-600 bg-blue-50 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
                   }`}
@@ -1310,30 +1352,45 @@ function App() {
                 <button 
                   onClick={() => {
                     setCurrentPage('home'); 
+                    setActiveSection('about');
                     setIsMenuOpen(false);
                     document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                    currentPage === 'home' && activeSection === 'about'
+                      ? 'text-blue-600 bg-blue-50 shadow-md' 
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                  }`}
                 >
                   Về chúng tôi
                 </button>
                 <button 
                   onClick={() => {
                     setCurrentPage('home'); 
+                    setActiveSection('achievements');
                     setIsMenuOpen(false);
                     document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                    currentPage === 'home' && activeSection === 'achievements'
+                      ? 'text-blue-600 bg-blue-50 shadow-md' 
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                  }`}
                 >
                   Thành tựu
                 </button>
                 <button 
                   onClick={() => {
                     setCurrentPage('home'); 
+                    setActiveSection('contact');
                     setIsMenuOpen(false);
                     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                    currentPage === 'home' && activeSection === 'contact'
+                      ? 'text-white bg-blue-600 shadow-md' 
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                  }`}
                 >
                   Liên hệ
                 </button>
