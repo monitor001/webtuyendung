@@ -1024,7 +1024,14 @@ function App() {
               {!isAdmin ? (
                 <div className="relative admin-login-container">
                   <button 
-                    onClick={() => setShowAdminLogin(!showAdminLogin)}
+                    onClick={() => {
+                      setShowAdminLogin(!showAdminLogin)
+                      if (!showAdminLogin) {
+                        setAdminEmail('')
+                        setAdminPassword('')
+                        setLoginError('')
+                      }
+                    }}
                     className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
                   >
                     Admin
