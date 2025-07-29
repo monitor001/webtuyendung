@@ -37,7 +37,7 @@ app.use(cors({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 1000 // limit each IP to 1000 requests per windowMs
 });
 app.use(limiter);
 
@@ -574,9 +574,37 @@ app.delete('/api/jobs/:id', async (req, res) => {
       return res.status(404).json({ error: 'Job not found' });
     }
 
-    res.json({ success: true, message: 'Job deleted successfully' });
+    res.json({ success: true, message: 'Job deleted successfully', deletedJob: result.rows[0] });
   } catch (error) {
     console.error('Error deleting job:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// DELETE multiple jobs
+app.delete('/api/jobs', async (req, res) => {
+  try {
+    const { ids } = req.body;
+    
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: 'Job IDs array is required' });
+    }
+
+    const placeholders = ids.map((_, index) => `$${index + 1}`).join(',');
+    const query = `DELETE FROM jobs WHERE id IN (${placeholders}) RETURNING *`;
+    const result = await pool.query(query, ids);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No jobs found to delete' });
+    }
+
+    res.json({ 
+      success: true, 
+      message: `${result.rows.length} jobs deleted successfully`,
+      deletedJobs: result.rows
+    });
+  } catch (error) {
+    console.error('Error deleting multiple jobs:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

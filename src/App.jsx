@@ -30,6 +30,8 @@ function App() {
   const [showAddJobForm, setShowAddJobForm] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [selectedCompany, setSelectedCompany] = useState(null)
+  const [selectedJobs, setSelectedJobs] = useState([])
+  const [isSelectMode, setIsSelectMode] = useState(false)
   
   // Animation states
   const [isTyping, setIsTyping] = useState(false)
@@ -342,20 +344,74 @@ function App() {
     
     try {
       const response = await fetch(`${API_ENDPOINTS.JOBS}/${jobId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
       
       const data = await response.json()
       if (data.success) {
-        await fetchJobs() // Refresh jobs list
-        alert('Xóa việc làm thành công!')
+        // Remove from local state instead of refetching
+        setJobs(jobs.filter(job => job.id !== jobId))
+        // Silent success - no alert
       } else {
-        alert('Lỗi: ' + data.message)
+        console.error('Delete failed:', data.message)
       }
     } catch (error) {
       console.error('Error deleting job:', error)
-      alert('Có lỗi xảy ra khi xóa việc làm')
     }
+  }
+
+  const deleteMultipleJobs = async (jobIds) => {
+    if (!confirm(`Bạn có chắc chắn muốn xóa ${jobIds.length} việc làm đã chọn?`)) return
+    
+    try {
+      const response = await fetch(`${API_ENDPOINTS.JOBS}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ ids: jobIds })
+      })
+      
+      const data = await response.json()
+      if (data.success) {
+        // Remove from local state
+        setJobs(jobs.filter(job => !jobIds.includes(job.id)))
+        // Silent success - no alert
+        setSelectedJobs([])
+        setIsSelectMode(false)
+      } else {
+        console.error('Delete failed:', data.message)
+      }
+    } catch (error) {
+      console.error('Error deleting multiple jobs:', error)
+    }
+  }
+
+  const toggleSelectMode = () => {
+    setIsSelectMode(!isSelectMode)
+    if (isSelectMode) {
+      setSelectedJobs([])
+    }
+  }
+
+  const toggleJobSelection = (jobId) => {
+    setSelectedJobs(prev => {
+      if (prev.includes(jobId)) {
+        return prev.filter(id => id !== jobId)
+      } else {
+        return [...prev, jobId]
+      }
+    })
+  }
+
+  const selectAllJobs = () => {
+    setSelectedJobs(jobs.map(job => job.id))
+  }
+
+  const deselectAllJobs = () => {
+    setSelectedJobs([])
   }
 
   const handleAddJobClick = () => {
@@ -787,14 +843,54 @@ function App() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h3 className="text-4xl font-bold text-gray-800">Việc làm nổi bật</h3>
-          {isAdmin && (
-            <button 
-              onClick={handleAddJobClick}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-            >
-              ➕ Thêm việc làm
-            </button>
-          )}
+          <div className="flex gap-2">
+            {isAdmin && (
+              <>
+                {isSelectMode ? (
+                  <>
+                    <button
+                      onClick={() => deleteMultipleJobs(selectedJobs)}
+                      disabled={selectedJobs.length === 0}
+                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      🗑️ Xóa ({selectedJobs.length})
+                    </button>
+                    <button
+                      onClick={selectAllJobs}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                      Chọn tất cả
+                    </button>
+                    <button
+                      onClick={deselectAllJobs}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                      Bỏ chọn tất cả
+                    </button>
+                    <button
+                      onClick={toggleSelectMode}
+                      className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+                    >
+                      ❌ Hủy
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={toggleSelectMode}
+                    className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors flex items-center gap-2"
+                  >
+                    ☑️ Chọn nhiều
+                  </button>
+                )}
+                <button
+                  onClick={handleAddJobClick}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center gap-2"
+                >
+                  ➕ Thêm việc làm
+                </button>
+              </>
+            )}
+          </div>
         </div>
         
         {/* Search and Filter */}
@@ -862,14 +958,24 @@ function App() {
           <>
             <div className="grid grid-cols-1 gap-6">
               {jobs.map((job) => (
-                <div key={job.id} className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow p-6 border-l-4 border-blue-600">
+                <div key={job.id} className={`bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow p-6 border-l-4 ${selectedJobs.includes(job.id) ? 'border-green-600 bg-green-50' : 'border-blue-600'}`}>
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div className="flex-1 mb-4 md:mb-0">
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="text-lg font-semibold text-blue-600 cursor-pointer hover:text-blue-700" onClick={() => handleViewJobDetail(job)}>
-                          {job.title}
-                        </h4>
-                        {isAdmin && (
+                        <div className="flex items-center gap-2">
+                          {isSelectMode && (
+                            <input
+                              type="checkbox"
+                              checked={selectedJobs.includes(job.id)}
+                              onChange={() => toggleJobSelection(job.id)}
+                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                          )}
+                          <h4 className="text-lg font-semibold text-blue-600 cursor-pointer hover:text-blue-700" onClick={() => handleViewJobDetail(job)}>
+                            {job.title}
+                          </h4>
+                        </div>
+                        {isAdmin && !isSelectMode && (
                           <button
                             onClick={() => deleteJob(job.id)}
                             className="text-red-600 hover:text-red-700 p-1"
