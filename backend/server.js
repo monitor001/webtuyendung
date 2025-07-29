@@ -139,8 +139,11 @@ async function setupDatabase() {
     // Insert admin user (password: Ab123456#)
     await pool.query(`
       INSERT INTO users (email, password_hash, name, role) VALUES 
-      ('hoanguyen25@gmail.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Hoàng Nguyễn', 'admin')
-      ON CONFLICT (email) DO NOTHING
+      ('hoanguyen25@gmail.com', '$2b$10$yRnn5ZMl42XSttiz4WGlD.IEJQsqQ4K0oVKwnftBpQCo/kfwfGyC6', 'Hoàng Nguyễn', 'admin')
+      ON CONFLICT (email) DO UPDATE SET 
+        password_hash = '$2b$10$yRnn5ZMl42XSttiz4WGlD.IEJQsqQ4K0oVKwnftBpQCo/kfwfGyC6',
+        name = 'Hoàng Nguyễn',
+        role = 'admin'
     `);
 
     console.log('Database setup completed successfully');

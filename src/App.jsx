@@ -17,6 +17,8 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [jobs, setJobs] = useState([])
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [pagination, setPagination] = useState({})
   const [adminEmail, setAdminEmail] = useState('')
   const [adminPassword, setAdminPassword] = useState('')
   const [showAdminLogin, setShowAdminLogin] = useState(false)
