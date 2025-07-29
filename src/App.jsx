@@ -14,7 +14,10 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('')
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(() => {
+    // Check if admin was logged in before
+    return localStorage.getItem('adminLoggedIn') === 'true'
+  })
   const [jobs, setJobs] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -141,12 +144,13 @@ function App() {
       
       if (data.success) {
         setIsAdmin(true)
+        localStorage.setItem('adminLoggedIn', 'true')
         setShowAdminLogin(false)
         setAdminEmail('')
         setAdminPassword('')
         setLoginError('')
-        // Refresh page to update admin status
-        window.location.reload()
+        // Stay on current page and show success message
+        alert('Đăng nhập admin thành công!')
       } else {
         setLoginError(data.error || 'Đăng nhập thất bại')
       }
@@ -168,6 +172,8 @@ function App() {
       console.error('Error logging out:', error)
     } finally {
       setIsAdmin(false)
+      localStorage.removeItem('adminLoggedIn')
+      alert('Đã đăng xuất admin!')
     }
   }
 
