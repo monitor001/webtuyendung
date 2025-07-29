@@ -116,17 +116,7 @@ async function setupDatabase() {
       )
     `);
 
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS api_keys (
-        id SERIAL PRIMARY KEY,
-        key_hash VARCHAR(255) UNIQUE NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        role VARCHAR(50) DEFAULT 'admin',
-        is_active BOOLEAN DEFAULT true,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        last_used TIMESTAMP
-      )
-    `);
+
 
     // Insert sample data
     await pool.query(`
@@ -157,16 +147,7 @@ async function setupDatabase() {
         role = 'admin'
     `);
 
-    // Insert default API key (key: ADMIN-KEY-2024)
-    const apiKeyHash = await bcrypt.hash('ADMIN-KEY-2024', 10);
-    await pool.query(`
-      INSERT INTO api_keys (key_hash, name, role) VALUES 
-      ($1, 'Admin Access Key', 'admin')
-      ON CONFLICT (key_hash) DO UPDATE SET 
-        name = 'Admin Access Key',
-        role = 'admin',
-        is_active = true
-    `, [apiKeyHash]);
+
 
     console.log('Database setup completed successfully');
   } catch (error) {
@@ -174,131 +155,50 @@ async function setupDatabase() {
   }
 }
 
-// Authentication middleware
+// Simple authentication middleware - just check if user is logged in
 const authenticateToken = (req, res, next) => {
-  const token = req.headers['authorization']?.split(' ')[1] || req.session.token;
-  
-  if (!token) {
-    return res.status(401).json({ error: 'Access token required' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET || 'your-jwt-secret', (err, user) => {
-    if (err) {
-      return res.status(403).json({ error: 'Invalid token' });
-    }
-    req.user = user;
+  // Simple check - if session has user info, allow access
+  if (req.session.user) {
+    req.user = req.session.user;
     next();
-  });
+  } else {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
 };
 
 // API Routes
 
-// POST login
+// Simple login - just check email/password match
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password, api_key } = req.body;
+    const { email, password } = req.body;
     
-    // Check if using API key authentication
-    if (api_key) {
-      const keyQuery = 'SELECT * FROM api_keys WHERE is_active = true';
-      const keyResult = await pool.query(keyQuery);
-      
-      let isValidKey = false;
-      let keyUser = null;
-      
-      for (const key of keyResult.rows) {
-        const keyMatch = await bcrypt.compare(api_key, key.key_hash);
-        if (keyMatch) {
-          isValidKey = true;
-          keyUser = key;
-          break;
-        }
-      }
-      
-      if (!isValidKey) {
-        return res.status(401).json({ error: 'Invalid API key' });
-      }
-
-      // Update last used
-      await pool.query('UPDATE api_keys SET last_used = CURRENT_TIMESTAMP WHERE id = $1', [keyUser.id]);
-
-      // Generate JWT token for API key user
-      const token = jwt.sign(
-        { 
-          id: keyUser.id, 
-          name: keyUser.name, 
-          role: keyUser.role,
-          auth_type: 'api_key'
-        },
-        process.env.JWT_SECRET || 'your-jwt-secret',
-        { expiresIn: '24h' }
-      );
-
-      // Store token in session
-      req.session.token = token;
-      req.session.user = { 
-        id: keyUser.id, 
-        name: keyUser.name, 
-        role: keyUser.role,
-        auth_type: 'api_key'
-      };
-
-      return res.json({
-        success: true,
-        token,
-        user: {
-          id: keyUser.id,
-          name: keyUser.name,
-          role: keyUser.role,
-          auth_type: 'api_key'
-        }
-      });
-    }
-    
-    // Email/password authentication
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const query = 'SELECT * FROM users WHERE email = $1';
-    const result = await pool.query(query, [email]);
-    
-    if (result.rows.length === 0) {
+    // Simple check - just verify email and password match
+    if (email === 'hoanguyen25@gmail.com' && password === 'Ab123456#') {
+      // Store user info in session
+      req.session.user = { 
+        id: 1, 
+        email: email, 
+        name: 'Hoàng Nguyễn',
+        role: 'admin' 
+      };
+
+      res.json({
+        success: true,
+        user: {
+          id: 1,
+          email: email,
+          name: 'Hoàng Nguyễn',
+          role: 'admin'
+        }
+      });
+    } else {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-
-    const user = result.rows[0];
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
-    
-    if (!isValidPassword) {
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    // Update last login
-    await pool.query('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1', [user.id]);
-
-    // Generate JWT token
-    const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, auth_type: 'email' },
-      process.env.JWT_SECRET || 'your-jwt-secret',
-      { expiresIn: '24h' }
-    );
-
-    // Store token in session
-    req.session.token = token;
-    req.session.user = { id: user.id, email: user.email, role: user.role, auth_type: 'email' };
-
-    res.json({
-      success: true,
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        auth_type: 'email'
-      }
-    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -315,12 +215,16 @@ app.post('/api/auth/logout', (req, res) => {
   });
 });
 
-// GET current user
-app.get('/api/auth/me', authenticateToken, (req, res) => {
-  res.json({
-    success: true,
-    user: req.user
-  });
+// GET current user - simple check
+app.get('/api/auth/me', (req, res) => {
+  if (req.session.user) {
+    res.json({
+      success: true,
+      user: req.session.user
+    });
+  } else {
+    res.status(401).json({ error: 'Not authenticated' });
+  }
 });
 
 // GET all jobs

@@ -21,11 +21,9 @@ function App() {
   const [pagination, setPagination] = useState({})
   const [adminEmail, setAdminEmail] = useState('')
   const [adminPassword, setAdminPassword] = useState('')
-  const [adminApiKey, setAdminApiKey] = useState('')
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
-  const [loginMethod, setLoginMethod] = useState('email') // 'email' or 'api_key'
   const [showAddJobForm, setShowAddJobForm] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [selectedCompany, setSelectedCompany] = useState(null)
@@ -106,28 +104,19 @@ function App() {
     }
   }, [currentPage])
 
-  const checkAdminStatus = async () => {
-    const token = localStorage.getItem('adminToken')
-    if (!token) {
-      return
-    }
-    
+    const checkAdminStatus = async () => {
     try {
       const response = await fetch(API_ENDPOINTS.AUTH.ME, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
+        credentials: 'include' // Include cookies for session
       })
       const data = await response.json()
       if (data.success) {
         setIsAdmin(true)
       } else {
-        localStorage.removeItem('adminToken')
         setIsAdmin(false)
       }
     } catch (error) {
       console.error('Error checking admin status:', error)
-      localStorage.removeItem('adminToken')
       setIsAdmin(false)
     }
   }
@@ -137,26 +126,24 @@ function App() {
     setLoginError('')
     
     try {
-      const loginData = loginMethod === 'email' 
-        ? { email: adminEmail, password: adminPassword }
-        : { api_key: adminApiKey }
-      
       const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(loginData)
+        credentials: 'include', // Include cookies for session
+        body: JSON.stringify({
+          email: adminEmail,
+          password: adminPassword
+        })
       })
       const data = await response.json()
       
       if (data.success) {
-        localStorage.setItem('adminToken', data.token)
         setIsAdmin(true)
         setShowAdminLogin(false)
         setAdminEmail('')
         setAdminPassword('')
-        setAdminApiKey('')
         setLoginError('')
       } else {
         setLoginError(data.error || 'Đăng nhập thất bại')
@@ -172,12 +159,12 @@ function App() {
   const handleAdminLogout = async () => {
     try {
       await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include' // Include cookies for session
       })
     } catch (error) {
       console.error('Error logging out:', error)
     } finally {
-      localStorage.removeItem('adminToken')
       setIsAdmin(false)
     }
   }
@@ -1033,9 +1020,7 @@ function App() {
                       if (!showAdminLogin) {
                         setAdminEmail('')
                         setAdminPassword('')
-                        setAdminApiKey('')
                         setLoginError('')
-                        setLoginMethod('email')
                       }
                     }}
                     className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
@@ -1054,80 +1039,37 @@ function App() {
                         </div>
                       )}
                       
-                      {/* Login Method Toggle */}
-                      <div className="mb-3">
-                        <div className="flex bg-gray-100 rounded-lg p-1">
-                          <button
-                            onClick={() => setLoginMethod('email')}
-                            className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                              loginMethod === 'email'
-                                ? 'bg-white text-blue-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-800'
-                            }`}
-                          >
-                            Email/Password
-                          </button>
-                          <button
-                            onClick={() => setLoginMethod('api_key')}
-                            className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
-                              loginMethod === 'api_key'
-                                ? 'bg-white text-blue-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-800'
-                            }`}
-                          >
-                            Mã Khóa
-                          </button>
-                        </div>
-                      </div>
-                      
                       <div className="space-y-3">
-                        {loginMethod === 'email' ? (
-                          <>
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Email
-                              </label>
-                              <input
-                                type="email"
-                                placeholder="Nhập email admin"
-                                value={adminEmail}
-                                onChange={(e) => setAdminEmail(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                              />
-                            </div>
-                            
-                            <div>
-                              <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Mật khẩu
-                              </label>
-                              <input
-                                type="password"
-                                placeholder="Nhập mật khẩu"
-                                value={adminPassword}
-                                onChange={(e) => setAdminPassword(e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                              />
-                            </div>
-                          </>
-                        ) : (
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Mã Khóa Admin
-                            </label>
-                            <input
-                              type="password"
-                              placeholder="Nhập mã khóa admin"
-                              value={adminApiKey}
-                              onChange={(e) => setAdminApiKey(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                            />
-                          </div>
-                        )}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            placeholder="hoanguyen25@gmail.com"
+                            value={adminEmail}
+                            onChange={(e) => setAdminEmail(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Mật khẩu
+                          </label>
+                          <input
+                            type="password"
+                            placeholder="Ab123456#"
+                            value={adminPassword}
+                            onChange={(e) => setAdminPassword(e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                          />
+                        </div>
                         
                         <div className="flex space-x-2 pt-2">
                           <button
                             onClick={handleAdminLogin}
-                            disabled={loginLoading || (loginMethod === 'email' ? (!adminEmail || !adminPassword) : !adminApiKey)}
+                            disabled={loginLoading || !adminEmail || !adminPassword}
                             className="flex-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                           >
                             {loginLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
@@ -1141,11 +1083,8 @@ function App() {
                         </div>
                         
                         <div className="text-xs text-gray-500 mt-2">
-                          {loginMethod === 'email' ? (
-                            <p>Vui lòng liên hệ quản trị viên để được cấp tài khoản admin.</p>
-                          ) : (
-                            <p>Mã khóa mặc định: <strong>ADMIN-KEY-2024</strong></p>
-                          )}
+                          <p><strong>Email:</strong> hoanguyen25@gmail.com</p>
+                          <p><strong>Mật khẩu:</strong> Ab123456#</p>
                         </div>
                       </div>
                     </div>
