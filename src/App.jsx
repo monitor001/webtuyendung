@@ -659,17 +659,17 @@ function App() {
                       
                       {/* Social Media Links */}
                       <div className="flex justify-center space-x-4 pt-4">
-                        <a href="#" className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl">
+                        <a href="tel:+84901234567" className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl" title="Điện thoại">
+                          <span className="text-white text-lg">📞</span>
+                        </a>
+                        <a href="https://facebook.com/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl" title="Facebook">
                           <span className="text-white text-lg">📘</span>
                         </a>
-                        <a href="#" className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl">
+                        <a href="https://zalo.me/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl" title="Zalo">
                           <span className="text-white text-lg">💬</span>
                         </a>
-                        <a href="#" className="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors shadow-lg hover:shadow-xl">
-                          <span className="text-white text-lg">📷</span>
-                        </a>
-                        <a href="#" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
-                          <span className="text-white text-lg">💼</span>
+                        <a href="https://youtube.com/@jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl" title="YouTube">
+                          <span className="text-white text-lg">📺</span>
                         </a>
                       </div>
                       
@@ -707,17 +707,17 @@ function App() {
                 chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                <a href="tel:+84901234567" className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors" title="Điện thoại">
+                  <span className="text-white">📞</span>
+                </a>
+                <a href="https://facebook.com/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors" title="Facebook">
                   <span className="text-white">📘</span>
                 </a>
-                <a href="#" className="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
-                  <span className="text-white">🐦</span>
+                <a href="https://zalo.me/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors" title="Zalo">
+                  <span className="text-white">💬</span>
                 </a>
-                <a href="#" className="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
-                  <span className="text-white">📷</span>
-                </a>
-                <a href="#" className="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-900 transition-colors">
-                  <span className="text-white">💼</span>
+                <a href="https://youtube.com/@jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors" title="YouTube">
+                  <span className="text-white">📺</span>
                 </a>
               </div>
             </div>
