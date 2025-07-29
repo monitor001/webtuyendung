@@ -51,7 +51,7 @@ function App() {
     {
       name: 'Nguyễn Văn An',
       position: 'Software Engineer tại TechCorp',
-      content: 'HHR Việt Nam đã giúp tôi tìm được công việc mơ ước chỉ trong 2 tuần. Giao diện thân thiện và nhiều cơ hội tuyệt vời!',
+      content: 'SHR Việt Nam đã giúp tôi tìm được công việc mơ ước chỉ trong 2 tuần. Giao diện thân thiện và nhiều cơ hội tuyệt vời!',
       rating: 5,
       avatar: '👨‍💻'
     },
@@ -79,7 +79,7 @@ function App() {
     {
       name: 'Hoàng Đức Minh',
       position: 'HR Director tại BigCorp',
-      content: 'HHR Việt Nam là đối tác tin cậy trong việc tuyển dụng nhân tài. Hiệu quả và tiết kiệm thời gian.',
+      content: 'SHR Việt Nam là đối tác tin cậy trong việc tuyển dụng nhân tài. Hiệu quả và tiết kiệm thời gian.',
       rating: 5,
       avatar: '👔'
     }
@@ -521,7 +521,7 @@ function App() {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 animate-fade-in">
-            HHR Việt Nam
+            SHR Việt Nam
             <span className="block bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
               Kết nối nghề nghiệp
             </span>
@@ -553,9 +553,14 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/80 via-white/70 to-indigo-50/80"></div>
         <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex flex-col justify-center">
           <div className="text-center mb-8">
-                      <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
-            Về HHR Việt Nam
-          </h3>
+            <div className="flex justify-center items-center mb-6">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl font-bold">SHR</span>
+              </div>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700">
+                Về SHR Việt Nam
+              </h3>
+            </div>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
           </div>
           
@@ -569,7 +574,7 @@ function App() {
                 <div className="space-y-4 text-gray-800 leading-relaxed stagger-animation">
                   <div className="bg-gradient-to-r from-blue-50/60 to-indigo-50/60 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border-l-4 border-blue-500 hover:scale-105 transition-transform duration-300">
                     <p className="text-base sm:text-lg font-semibold leading-relaxed">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">HHR Vietnam</span> là công ty tuyển dụng uy tín tại Việt Nam, 
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">SHR Vietnam</span> là công ty tuyển dụng uy tín tại Việt Nam, 
                       chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
                     </p>
                   </div>
@@ -622,79 +627,79 @@ function App() {
       </section>
 
       {/* Achievements & Testimonials Section */}
-      <section id="achievements" className="relative h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center overflow-hidden">
-        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-          <div className="text-center mb-12">
-            <h3 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
+      <section id="achievements" className="relative min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center overflow-hidden py-20">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex flex-col justify-center">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
               Thành tựu & Cảm nhận
             </h3>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
+            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
           </div>
           
           <div className="max-w-6xl mx-auto">
             {/* Achievements */}
-            <div className="mb-12 animate-on-scroll">
-              <h4 className="text-3xl font-bold text-center mb-8 text-gray-800 animate-slide-in-up">
+            <div className="mb-8 sm:mb-12 animate-on-scroll">
+              <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800 animate-slide-in-up">
                 Thành tựu nổi bật
               </h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-animation">
-                <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-blue-600 hover:scale-105 hover:-translate-y-2">
-                  <div className="text-5xl mb-4 animate-bounce-in">🏆</div>
-                  <h5 className="text-xl font-bold mb-3 text-blue-600">Giải thưởng xuất sắc</h5>
-                  <p className="text-gray-600">Nền tảng tuyển dụng được tin cậy của các đối tác</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 stagger-animation">
+                <div className="text-center p-4 sm:p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-blue-600 hover:scale-105 hover:-translate-y-2">
+                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4 animate-bounce-in">🏆</div>
+                  <h5 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-blue-600">Giải thưởng xuất sắc</h5>
+                  <p className="text-sm sm:text-base text-gray-600">Nền tảng tuyển dụng được tin cậy của các đối tác</p>
                 </div>
                 
-                <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-red-600 hover:scale-105 hover:-translate-y-2">
-                  <div className="text-5xl mb-4 animate-bounce-in">📈</div>
-                  <h5 className="text-xl font-bold mb-3 text-red-600">Tăng trưởng vượt bậc</h5>
-                  <p className="text-gray-600">200% tăng trưởng số lượng ứng viên và nhà tuyển dụng trong năm 2024</p>
+                <div className="text-center p-4 sm:p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-red-600 hover:scale-105 hover:-translate-y-2">
+                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4 animate-bounce-in">📈</div>
+                  <h5 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-red-600">Tăng trưởng vượt bậc</h5>
+                  <p className="text-sm sm:text-base text-gray-600">200% tăng trưởng số lượng ứng viên và nhà tuyển dụng trong năm 2024</p>
                 </div>
                 
-                <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-orange-500 hover:scale-105 hover:-translate-y-2">
-                  <div className="text-5xl mb-4 animate-bounce-in">⭐</div>
-                  <h5 className="text-xl font-bold mb-3 text-orange-500">Đánh giá cao</h5>
-                  <p className="text-gray-600">5/5 sao từ hơn 5,000 đánh giá của người tuyển dụng và nhà tuyển dụng</p>
+                <div className="text-center p-4 sm:p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-orange-500 hover:scale-105 hover:-translate-y-2">
+                  <div className="text-4xl sm:text-5xl mb-3 sm:mb-4 animate-bounce-in">⭐</div>
+                  <h5 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3 text-orange-500">Đánh giá cao</h5>
+                  <p className="text-sm sm:text-base text-gray-600">5/5 sao từ hơn 5,000 đánh giá của người tuyển dụng và nhà tuyển dụng</p>
                 </div>
               </div>
             </div>
             
             {/* Testimonials */}
             <div className="animate-on-scroll">
-              <h4 className="text-3xl font-bold text-center mb-8 text-gray-800">
+              <h4 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
                 Cảm nghĩ từ cộng đồng
               </h4>
               <div className="relative max-w-6xl mx-auto">
-                <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center justify-center space-x-2 sm:space-x-4">
                   <button
                     onClick={prevTestimonial}
-                    className="p-3 border border-blue-300 rounded-full hover:bg-blue-50 text-blue-600 text-lg"
+                    className="p-2 sm:p-3 border border-blue-300 rounded-full hover:bg-blue-50 text-blue-600 text-base sm:text-lg"
                   >
                     ←
                   </button>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 flex-1">
                     {getVisibleTestimonials().map((testimonial, index) => (
-                      <div key={index} className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border-l-4 border-blue-600">
-                        <div className="flex items-center mb-4">
-                          <div className="text-3xl mr-3">{testimonial.avatar}</div>
+                      <div key={index} className="p-4 sm:p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow border-l-4 border-blue-600">
+                        <div className="flex items-center mb-3 sm:mb-4">
+                          <div className="text-2xl sm:text-3xl mr-3">{testimonial.avatar}</div>
                           <div>
-                            <h5 className="font-semibold text-blue-600">{testimonial.name}</h5>
-                            <p className="text-sm text-gray-600">{testimonial.position}</p>
+                            <h5 className="font-semibold text-blue-600 text-sm sm:text-base">{testimonial.name}</h5>
+                            <p className="text-xs sm:text-sm text-gray-600">{testimonial.position}</p>
                           </div>
                         </div>
-                        <div className="flex mb-3">
+                        <div className="flex mb-2 sm:mb-3">
                           {[...Array(testimonial.rating)].map((_, i) => (
-                            <span key={i} className="text-orange-400">⭐</span>
+                            <span key={i} className="text-orange-400 text-sm sm:text-base">⭐</span>
                           ))}
                         </div>
-                        <p className="text-gray-700 italic">"{testimonial.content}"</p>
+                        <p className="text-gray-700 italic text-sm sm:text-base">"{testimonial.content}"</p>
                       </div>
                     ))}
                   </div>
                   
                   <button
                     onClick={nextTestimonial}
-                    className="p-3 border border-blue-300 rounded-full hover:bg-blue-50 text-blue-600 text-lg"
+                    className="p-2 sm:p-3 border border-blue-300 rounded-full hover:bg-blue-50 text-blue-600 text-base sm:text-lg"
                   >
                     →
                   </button>
@@ -706,58 +711,58 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="relative h-screen bg-gradient-to-r from-indigo-50 to-purple-50 flex items-center overflow-hidden">
-        <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
-          <div className="text-center mb-12">
-            <h3 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-700 mb-6">
+      <section id="contact" className="relative min-h-screen bg-gradient-to-r from-indigo-50 to-purple-50 flex items-center overflow-hidden py-20">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex flex-col justify-center">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-700 mb-6">
               Liên hệ
             </h3>
-            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto mb-6 rounded-full"></div>
+            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 mx-auto mb-6 rounded-full"></div>
           </div>
           
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               {/* Contact Information */}
               <div className="animate-on-scroll">
-                <h4 className="text-3xl font-bold text-gray-800 mb-8">Thông tin liên hệ</h4>
-                <div className="space-y-6">
-                  <div className="flex items-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-white text-xl">📍</span>
+                <h4 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">Thông tin liên hệ</h4>
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="flex items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-3 sm:mr-4">
+                      <span className="text-white text-lg sm:text-xl">📍</span>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-gray-800 mb-1">Địa chỉ</h5>
-                      <p className="text-gray-600">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</p>
+                      <h5 className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">Địa chỉ</h5>
+                      <p className="text-gray-600 text-sm sm:text-base">123 Đường ABC, Quận 1, TP. Hồ Chí Minh</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-white text-xl">📧</span>
+                  <div className="flex items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-3 sm:mr-4">
+                      <span className="text-white text-lg sm:text-xl">📧</span>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-gray-800 mb-1">Email</h5>
-                      <p className="text-gray-600">info@jobconnect.vn</p>
+                      <h5 className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">Email</h5>
+                      <p className="text-gray-600 text-sm sm:text-base">info@jobconnect.vn</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-white text-xl">📞</span>
+                  <div className="flex items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center mr-3 sm:mr-4">
+                      <span className="text-white text-lg sm:text-xl">📞</span>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-gray-800 mb-1">Điện thoại</h5>
-                      <p className="text-gray-600">+84 24 1234 5678</p>
+                      <h5 className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">Điện thoại</h5>
+                      <p className="text-gray-600 text-sm sm:text-base">+84 24 1234 5678</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-center p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mr-4">
-                      <span className="text-white text-xl">🕒</span>
+                  <div className="flex items-center p-4 sm:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 sm:mr-4">
+                      <span className="text-white text-lg sm:text-xl">🕒</span>
                     </div>
                     <div>
-                      <h5 className="font-semibold text-gray-800 mb-1">Giờ làm việc</h5>
-                      <p className="text-gray-600">8:00 - 18:00 (Thứ 2 - Thứ 6)</p>
+                      <h5 className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">Giờ làm việc</h5>
+                      <p className="text-gray-600 text-sm sm:text-base">8:00 - 18:00 (Thứ 2 - Thứ 6)</p>
                     </div>
                   </div>
                 </div>
@@ -765,42 +770,42 @@ function App() {
               
               {/* QR Code Section */}
               <div className="animate-on-scroll">
-                <h4 className="text-3xl font-bold text-gray-800 mb-8">Quét mã QR</h4>
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
-                  <div className="text-center space-y-6">
+                <h4 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8">Quét mã QR</h4>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 sm:p-8">
+                  <div className="text-center space-y-4 sm:space-y-6">
                     {/* QR Code Placeholder */}
-                    <div className="mx-auto w-48 h-48 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border-4 border-indigo-200 flex items-center justify-center shadow-lg">
+                    <div className="mx-auto w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl border-4 border-indigo-200 flex items-center justify-center shadow-lg">
                       <div className="text-center">
-                        <div className="text-6xl mb-2">📱</div>
-                        <p className="text-sm text-gray-600 font-medium">QR Code</p>
-                        <p className="text-xs text-gray-500">HHR Vietnam</p>
+                        <div className="text-4xl sm:text-6xl mb-2">📱</div>
+                        <p className="text-xs sm:text-sm text-gray-600 font-medium">QR Code</p>
+                        <p className="text-xs text-gray-500">SHR Vietnam</p>
                       </div>
                     </div>
                     
                     {/* QR Code Description */}
-                    <div className="space-y-4">
-                      <h5 className="text-xl font-semibold text-gray-800">Liên hệ nhanh</h5>
-                      <p className="text-gray-600 leading-relaxed">
+                    <div className="space-y-3 sm:space-y-4">
+                      <h5 className="text-lg sm:text-xl font-semibold text-gray-800">Liên hệ nhanh</h5>
+                      <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
                         Quét mã QR để kết nối trực tiếp với chúng tôi qua Zalo, Facebook hoặc các ứng dụng khác.
                       </p>
                       
                       {/* Social Media Links */}
-                      <div className="flex justify-center space-x-4 pt-4">
-                        <a href="tel:+84901234567" className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl" title="Điện thoại">
-                          <span className="text-white text-lg">📞</span>
+                      <div className="flex justify-center space-x-3 sm:space-x-4 pt-4">
+                        <a href="tel:+84901234567" className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-full flex items-center justify-center hover:bg-green-600 transition-colors shadow-lg hover:shadow-xl" title="Điện thoại">
+                          <span className="text-white text-base sm:text-lg">📞</span>
                         </a>
-                        <a href="https://facebook.com/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl" title="Facebook">
-                          <span className="text-white text-lg">📘</span>
+                        <a href="https://facebook.com/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl" title="Facebook">
+                          <span className="text-white text-base sm:text-lg">📘</span>
                         </a>
-                        <a href="https://zalo.me/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl" title="Zalo">
-                          <span className="text-white text-lg">💬</span>
+                        <a href="https://zalo.me/jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors shadow-lg hover:shadow-xl" title="Zalo">
+                          <span className="text-white text-base sm:text-lg">💬</span>
                         </a>
-                        <a href="https://youtube.com/@jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl" title="YouTube">
-                          <span className="text-white text-lg">📺</span>
+                        <a href="https://youtube.com/@jobconnectvietnam" target="_blank" rel="noopener noreferrer" className="w-10 h-10 sm:w-12 sm:h-12 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl" title="YouTube">
+                          <span className="text-white text-base sm:text-lg">📺</span>
                         </a>
                       </div>
                       
-                      <p className="text-sm text-gray-500 pt-2">
+                      <p className="text-xs sm:text-sm text-gray-500 pt-2">
                         Hoặc liên hệ trực tiếp qua các kênh bên cạnh
                       </p>
                     </div>
@@ -819,18 +824,18 @@ function App() {
             {/* Company Info */}
             <div className="md:col-span-2">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mr-4">
-                  <span className="text-white text-2xl font-bold">JC</span>
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300">
+                  <span className="text-white text-xl font-bold">SHR</span>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-                    HHR Vietnam
+                  <h3 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
+                    SHR Vietnam
                   </h3>
-                  <p className="text-gray-400">Kết nối tài năng với cơ hội</p>
+                  <p className="text-gray-400 text-sm sm:text-base">Kết nối tài năng với cơ hội</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6 leading-relaxed">
-                HHR Vietnam là nền tảng tuyển dụng uy tín tại Việt Nam, 
+                SHR Vietnam là nền tảng tuyển dụng uy tín tại Việt Nam, 
                 chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
               </p>
               <div className="flex space-x-4">
@@ -888,7 +893,7 @@ function App() {
           <div className="border-t border-gray-700 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                © 2025 HHR Vietnam. Tất cả quyền được bảo lưu.
+                © 2025 SHR Vietnam. Tất cả quyền được bảo lưu.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">Chính sách bảo mật</a>
@@ -906,7 +911,7 @@ function App() {
     <section className="h-screen bg-gray-50 overflow-y-auto">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-4xl font-bold text-gray-800">Việc làm HHR Việt Nam</h3>
+          <h3 className="text-4xl font-bold text-gray-800">Việc làm SHR Việt Nam</h3>
           <div className="flex gap-2">
             {isAdmin && (
               <>
@@ -1169,10 +1174,10 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-2xl">👥</span>
+                <span className="text-white text-xl font-bold">SHR</span>
               </div>
-              <h1 className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
-                HHR Việt Nam
+              <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
+                SHR Việt Nam
               </h1>
             </div>
             
