@@ -115,8 +115,7 @@ jobconnect-vietnam/
 
 ## 🔐 Tài khoản Admin
 
-- **Email**: hoanguyen25@gmail.com
-- **Password**: Ab123456#
+Tài khoản admin được cấp riêng cho quản trị viên. Vui lòng liên hệ để được cấp quyền truy cập.
 
 ## 📝 API Endpoints
 

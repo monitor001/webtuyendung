@@ -1048,7 +1048,7 @@ function App() {
                           </label>
                           <input
                             type="email"
-                            placeholder="hoanguyen25@gmail.com"
+                            placeholder="Nhập email admin"
                             value={adminEmail}
                             onChange={(e) => setAdminEmail(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
@@ -1061,7 +1061,7 @@ function App() {
                           </label>
                           <input
                             type="password"
-                            placeholder="Ab123456#"
+                            placeholder="Nhập mật khẩu"
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
@@ -1085,8 +1085,7 @@ function App() {
                         </div>
                         
                         <div className="text-xs text-gray-500 mt-2">
-                          <p><strong>Email:</strong> hoanguyen25@gmail.com</p>
-                          <p><strong>Mật khẩu:</strong> Ab123456#</p>
+                          <p>Vui lòng liên hệ quản trị viên để được cấp tài khoản admin.</p>
                         </div>
                       </div>
                     </div>
