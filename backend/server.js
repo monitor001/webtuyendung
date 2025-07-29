@@ -7,6 +7,10 @@ const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const { Pool } = require('pg');
 require('dotenv').config();
+// Thêm các import cho gửi mail
+const nodemailer = require('nodemailer');
+const multer = require('multer');
+const upload = multer();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -685,6 +689,43 @@ app.get('/api/search', async (req, res) => {
   } catch (error) {
     console.error('Error searching jobs:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Endpoint nhận ứng tuyển và gửi mail
+app.post('/api/apply', upload.single('cv'), async (req, res) => {
+  try {
+    const { name, jobTitle, to, subject } = req.body;
+    const cvFile = req.file;
+    if (!name || !jobTitle || !cvFile) {
+      return res.status(400).json({ error: 'Thiếu thông tin ứng tuyển hoặc file CV' });
+    }
+    // Cấu hình transporter cho Gmail
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.MAIL_USER || 'hoanguyen24@gmail.com',
+        pass: process.env.MAIL_PASS || 'app-password-here'
+      }
+    });
+    // Gửi mail
+    await transporter.sendMail({
+      from: process.env.MAIL_USER || 'hoanguyen24@gmail.com',
+      to: to || 'hoanguyen24@gmail.com',
+      subject: subject || `Ứng tuyển - ${name} - ${jobTitle}`,
+      text: `Ứng viên: ${name}\nVị trí ứng tuyển: ${jobTitle}`,
+      attachments: [
+        {
+          filename: `${name}-CV.pdf`,
+          content: cvFile.buffer,
+          contentType: 'application/pdf'
+        }
+      ]
+    });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Lỗi gửi mail ứng tuyển:', err);
+    res.status(500).json({ error: 'Gửi mail thất bại!' });
   }
 });
 

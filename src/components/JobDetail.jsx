@@ -32,6 +32,61 @@ const JobDetail = ({ job, onBack, onViewCompany, onJobUpdate, onJobDelete, isAdm
     phone: ''
   })
 
+  // Ứng tuyển
+  const [showApplyModal, setShowApplyModal] = useState(false)
+  const [applicantName, setApplicantName] = useState('')
+  const [cvFile, setCvFile] = useState(null)
+  const [applyLoading, setApplyLoading] = useState(false)
+  const [applyError, setApplyError] = useState('')
+  const [showThankYou, setShowThankYou] = useState(false)
+
+  // Hàm gửi mail ứng tuyển (giả lập, thực tế cần backend hỗ trợ gửi mail)
+  const handleApply = async (e) => {
+    e.preventDefault()
+    setApplyError('')
+    if (!applicantName.trim()) {
+      setApplyError('Vui lòng nhập họ tên!')
+      return
+    }
+    if (!cvFile) {
+      setApplyError('Vui lòng đính kèm file CV (PDF)!')
+      return
+    }
+    if (cvFile.type !== 'application/pdf') {
+      setApplyError('Chỉ chấp nhận file PDF!')
+      return
+    }
+    setApplyLoading(true)
+    try {
+      // Gửi dữ liệu lên backend để gửi mail
+      const formData = new FormData()
+      formData.append('name', applicantName)
+      formData.append('cv', cvFile)
+      formData.append('jobTitle', job.title)
+      formData.append('jobId', job.id)
+      formData.append('to', 'hoanguyen24@gmail.com')
+      formData.append('subject', `Ứng tuyển - ${applicantName} - ${job.title}`)
+
+      // Giả sử có endpoint /api/apply để xử lý gửi mail
+      const res = await fetch('/api/apply', {
+        method: 'POST',
+        body: formData
+      })
+      if (res.ok) {
+        setShowApplyModal(false)
+        setShowThankYou(true)
+        setApplicantName('')
+        setCvFile(null)
+      } else {
+        setApplyError('Gửi CV thất bại. Vui lòng thử lại sau!')
+      }
+    } catch (err) {
+      setApplyError('Có lỗi xảy ra khi gửi CV!')
+    } finally {
+      setApplyLoading(false)
+    }
+  }
+
   // Fetch similar jobs and company info
   useEffect(() => {
     const fetchData = async () => {
@@ -220,7 +275,11 @@ const JobDetail = ({ job, onBack, onViewCompany, onJobUpdate, onJobDelete, isAdm
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm">
+                  {/* Nút ứng tuyển */}
+                  <button
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
+                    onClick={() => setShowApplyModal(true)}
+                  >
                     Ứng tuyển ngay
                   </button>
                   <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm">
@@ -688,6 +747,61 @@ const JobDetail = ({ job, onBack, onViewCompany, onJobUpdate, onJobDelete, isAdm
           </div>
         </div>
       </div>
+      {/* Modal ứng tuyển */}
+      {showApplyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-xl"
+              onClick={() => setShowApplyModal(false)}
+            >×</button>
+            <h2 className="text-xl font-bold mb-4 text-blue-700">Ứng tuyển vị trí: {job.title}</h2>
+            <form onSubmit={handleApply} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Họ và tên <span className="text-red-500">*</span></label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  value={applicantName}
+                  onChange={e => setApplicantName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">CV (PDF) <span className="text-red-500">*</span></label>
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  className="w-full"
+                  onChange={e => setCvFile(e.target.files[0])}
+                  required
+                />
+              </div>
+              {applyError && <div className="text-red-600 text-sm">{applyError}</div>}
+              <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-semibold"
+                disabled={applyLoading}
+              >
+                {applyLoading ? 'Đang gửi...' : 'Gửi CV'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Hộp thoại cảm ơn */}
+      {showThankYou && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-sm text-center">
+            <h2 className="text-2xl font-bold text-green-600 mb-4">Cảm ơn bạn đã ứng tuyển!</h2>
+            <p className="mb-6">Chúng tôi đã nhận được hồ sơ của bạn và sẽ liên hệ sớm nhất có thể.</p>
+            <button
+              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+              onClick={() => setShowThankYou(false)}
+            >Đóng</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
