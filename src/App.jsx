@@ -200,8 +200,13 @@ function App() {
         setAdminEmail('')
         setAdminPassword('')
         setLoginError('')
-        // Stay on current page and show success message
-        alert('Đăng nhập admin thành công!')
+        
+        // Chuyển đến trang việc làm khi admin đăng nhập
+        setCurrentPage('jobs')
+        setSelectedJob(null) // Reset selected job nếu đang ở trang chi tiết
+        fetchJobs() // Tải danh sách việc làm
+        
+        alert('Đăng nhập admin thành công! Đã chuyển đến trang quản lý việc làm. Bạn có thể thêm, chỉnh sửa hoặc xóa việc làm.')
       } else {
         setLoginError(data.error || 'Đăng nhập thất bại')
       }
@@ -224,7 +229,9 @@ function App() {
     } finally {
       setIsAdmin(false)
       localStorage.removeItem('adminLoggedIn')
-      alert('Đã đăng xuất admin!')
+      setCurrentPage('home') // Chuyển về trang chủ khi đăng xuất
+      setSelectedJob(null) // Reset selected job
+      alert('Đã đăng xuất admin! Đã chuyển về trang chủ.')
     }
   }
 
@@ -415,14 +422,15 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Remove from local state instead of refetching
-        setJobs(jobs.filter(job => job.id !== jobId))
-        // Silent success - no alert
+        // Reload trang sau khi xóa thành công
+        window.location.reload()
       } else {
         console.error('Delete failed:', data.message)
+        alert('Có lỗi xảy ra khi xóa việc làm!')
       }
     } catch (error) {
       console.error('Error deleting job:', error)
+      alert('Có lỗi xảy ra khi xóa việc làm!')
     }
   }
 
@@ -441,16 +449,15 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Remove from local state
-        setJobs(jobs.filter(job => !jobIds.includes(job.id)))
-        // Silent success - no alert
-        setSelectedJobs([])
-        setIsSelectMode(false)
+        // Reload trang sau khi xóa thành công
+        window.location.reload()
       } else {
         console.error('Delete failed:', data.message)
+        alert('Có lỗi xảy ra khi xóa việc làm!')
       }
     } catch (error) {
       console.error('Error deleting multiple jobs:', error)
+      alert('Có lỗi xảy ra khi xóa việc làm!')
     }
   }
 
