@@ -111,9 +111,20 @@ async function setupDatabase() {
         password_hash VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         role VARCHAR(50) DEFAULT 'admin',
-
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         last_login TIMESTAMP
+      )
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS api_keys (
+        id SERIAL PRIMARY KEY,
+        key_hash VARCHAR(255) UNIQUE NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        role VARCHAR(50) DEFAULT 'admin',
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        last_used TIMESTAMP
       )
     `);
 
@@ -139,12 +150,23 @@ async function setupDatabase() {
     // Insert admin user (password: Ab123456#)
     await pool.query(`
       INSERT INTO users (email, password_hash, name, role) VALUES 
-      ('hoanguyen25@gmail.com', '$2b$10$GZWRXqiMA.K59IeDtG/nYe6NO.MHFDKQgLhSFqYc5tO60J9TXiBsO', 'Hoàng Nguyễn', 'admin')
+      ('hoanguyen25@gmail.com', '$2b$10$vvfaIGh88OcD9hgnorckl.0sWlD.WC3Vs/Ejpmvw8a41T4IV6q0QS', 'Hoàng Nguyễn', 'admin')
       ON CONFLICT (email) DO UPDATE SET 
-        password_hash = '$2b$10$GZWRXqiMA.K59IeDtG/nYe6NO.MHFDKQgLhSFqYc5tO60J9TXiBsO',
+        password_hash = '$2b$10$vvfaIGh88OcD9hgnorckl.0sWlD.WC3Vs/Ejpmvw8a41T4IV6q0QS',
         name = 'Hoàng Nguyễn',
         role = 'admin'
     `);
+
+    // Insert default API key (key: ADMIN-KEY-2024)
+    const apiKeyHash = await bcrypt.hash('ADMIN-KEY-2024', 10);
+    await pool.query(`
+      INSERT INTO api_keys (key_hash, name, role) VALUES 
+      ($1, 'Admin Access Key', 'admin')
+      ON CONFLICT (key_hash) DO UPDATE SET 
+        name = 'Admin Access Key',
+        role = 'admin',
+        is_active = true
+    `, [apiKeyHash]);
 
     console.log('Database setup completed successfully');
   } catch (error) {
@@ -174,8 +196,66 @@ const authenticateToken = (req, res, next) => {
 // POST login
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, api_key } = req.body;
     
+    // Check if using API key authentication
+    if (api_key) {
+      const keyQuery = 'SELECT * FROM api_keys WHERE is_active = true';
+      const keyResult = await pool.query(keyQuery);
+      
+      let isValidKey = false;
+      let keyUser = null;
+      
+      for (const key of keyResult.rows) {
+        const keyMatch = await bcrypt.compare(api_key, key.key_hash);
+        if (keyMatch) {
+          isValidKey = true;
+          keyUser = key;
+          break;
+        }
+      }
+      
+      if (!isValidKey) {
+        return res.status(401).json({ error: 'Invalid API key' });
+      }
+
+      // Update last used
+      await pool.query('UPDATE api_keys SET last_used = CURRENT_TIMESTAMP WHERE id = $1', [keyUser.id]);
+
+      // Generate JWT token for API key user
+      const token = jwt.sign(
+        { 
+          id: keyUser.id, 
+          name: keyUser.name, 
+          role: keyUser.role,
+          auth_type: 'api_key'
+        },
+        process.env.JWT_SECRET || 'your-jwt-secret',
+        { expiresIn: '24h' }
+      );
+
+      // Store token in session
+      req.session.token = token;
+      req.session.user = { 
+        id: keyUser.id, 
+        name: keyUser.name, 
+        role: keyUser.role,
+        auth_type: 'api_key'
+      };
+
+      return res.json({
+        success: true,
+        token,
+        user: {
+          id: keyUser.id,
+          name: keyUser.name,
+          role: keyUser.role,
+          auth_type: 'api_key'
+        }
+      });
+    }
+    
+    // Email/password authentication
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
@@ -199,14 +279,14 @@ app.post('/api/auth/login', async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role, auth_type: 'email' },
       process.env.JWT_SECRET || 'your-jwt-secret',
       { expiresIn: '24h' }
     );
 
     // Store token in session
     req.session.token = token;
-    req.session.user = { id: user.id, email: user.email, role: user.role };
+    req.session.user = { id: user.id, email: user.email, role: user.role, auth_type: 'email' };
 
     res.json({
       success: true,
@@ -215,7 +295,8 @@ app.post('/api/auth/login', async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role
+        role: user.role,
+        auth_type: 'email'
       }
     });
   } catch (error) {

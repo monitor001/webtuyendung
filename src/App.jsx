@@ -21,9 +21,11 @@ function App() {
   const [pagination, setPagination] = useState({})
   const [adminEmail, setAdminEmail] = useState('')
   const [adminPassword, setAdminPassword] = useState('')
+  const [adminApiKey, setAdminApiKey] = useState('')
   const [showAdminLogin, setShowAdminLogin] = useState(false)
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
+  const [loginMethod, setLoginMethod] = useState('email') // 'email' or 'api_key'
   const [showAddJobForm, setShowAddJobForm] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [selectedCompany, setSelectedCompany] = useState(null)
@@ -135,15 +137,16 @@ function App() {
     setLoginError('')
     
     try {
+      const loginData = loginMethod === 'email' 
+        ? { email: adminEmail, password: adminPassword }
+        : { api_key: adminApiKey }
+      
       const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          email: adminEmail,
-          password: adminPassword
-        })
+        body: JSON.stringify(loginData)
       })
       const data = await response.json()
       
@@ -153,6 +156,7 @@ function App() {
         setShowAdminLogin(false)
         setAdminEmail('')
         setAdminPassword('')
+        setAdminApiKey('')
         setLoginError('')
       } else {
         setLoginError(data.error || 'Đăng nhập thất bại')
@@ -1029,7 +1033,9 @@ function App() {
                       if (!showAdminLogin) {
                         setAdminEmail('')
                         setAdminPassword('')
+                        setAdminApiKey('')
                         setLoginError('')
+                        setLoginMethod('email')
                       }
                     }}
                     className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
@@ -1048,37 +1054,80 @@ function App() {
                         </div>
                       )}
                       
+                      {/* Login Method Toggle */}
+                      <div className="mb-3">
+                        <div className="flex bg-gray-100 rounded-lg p-1">
+                          <button
+                            onClick={() => setLoginMethod('email')}
+                            className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
+                              loginMethod === 'email'
+                                ? 'bg-white text-blue-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-800'
+                            }`}
+                          >
+                            Email/Password
+                          </button>
+                          <button
+                            onClick={() => setLoginMethod('api_key')}
+                            className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors ${
+                              loginMethod === 'api_key'
+                                ? 'bg-white text-blue-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-800'
+                            }`}
+                          >
+                            Mã Khóa
+                          </button>
+                        </div>
+                      </div>
+                      
                       <div className="space-y-3">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Email
-                          </label>
-                          <input
-                            type="email"
-                            placeholder="Nhập email admin"
-                            value={adminEmail}
-                            onChange={(e) => setAdminEmail(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Mật khẩu
-                          </label>
-                          <input
-                            type="password"
-                            placeholder="Nhập mật khẩu"
-                            value={adminPassword}
-                            onChange={(e) => setAdminPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          />
-                        </div>
+                        {loginMethod === 'email' ? (
+                          <>
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Email
+                              </label>
+                              <input
+                                type="email"
+                                placeholder="Nhập email admin"
+                                value={adminEmail}
+                                onChange={(e) => setAdminEmail(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                              />
+                            </div>
+                            
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Mật khẩu
+                              </label>
+                              <input
+                                type="password"
+                                placeholder="Nhập mật khẩu"
+                                value={adminPassword}
+                                onChange={(e) => setAdminPassword(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Mã Khóa Admin
+                            </label>
+                            <input
+                              type="password"
+                              placeholder="Nhập mã khóa admin"
+                              value={adminApiKey}
+                              onChange={(e) => setAdminApiKey(e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            />
+                          </div>
+                        )}
                         
                         <div className="flex space-x-2 pt-2">
                           <button
                             onClick={handleAdminLogin}
-                            disabled={loginLoading}
+                            disabled={loginLoading || (loginMethod === 'email' ? (!adminEmail || !adminPassword) : !adminApiKey)}
                             className="flex-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                           >
                             {loginLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
@@ -1092,7 +1141,11 @@ function App() {
                         </div>
                         
                         <div className="text-xs text-gray-500 mt-2">
-                          <p>Vui lòng liên hệ quản trị viên để được cấp tài khoản admin.</p>
+                          {loginMethod === 'email' ? (
+                            <p>Vui lòng liên hệ quản trị viên để được cấp tài khoản admin.</p>
+                          ) : (
+                            <p>Mã khóa mặc định: <strong>ADMIN-KEY-2024</strong></p>
+                          )}
                         </div>
                       </div>
                     </div>
