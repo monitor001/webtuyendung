@@ -184,7 +184,7 @@ function App() {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '10',
+        limit: '3',
         ...filters
       })
       

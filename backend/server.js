@@ -234,7 +234,7 @@ app.get('/api/auth/me', (req, res) => {
 // GET all jobs
 app.get('/api/jobs', async (req, res) => {
   try {
-    const { page = 1, limit = 10, search, location, job_type, experience_level } = req.query;
+    const { page = 1, limit = 3, search, location, job_type, experience_level } = req.query;
     const offset = (page - 1) * limit;
     
     let query = `
@@ -534,7 +534,7 @@ app.put('/api/jobs/:id', async (req, res) => {
       UPDATE jobs SET 
         title = $1, company_name = $2, location = $3, salary_min = $4, salary_max = $5,
         job_type = $6, experience_level = $7, description = $8, requirements = $9,
-        benefits = $10, deadline_date = $11, updated_at = CURRENT_TIMESTAMP
+        benefits = $10, deadline_date = $11
       WHERE id = $12
       RETURNING *
     `;
