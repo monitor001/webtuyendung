@@ -104,7 +104,7 @@ function App() {
 
   const checkAdminStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/auth/me', {
+      const response = await fetch(API_ENDPOINTS.AUTH.ME, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
         }
@@ -306,7 +306,7 @@ function App() {
 
   const addJob = async (newJobData) => {
     try {
-      const response = await fetch('/api/jobs', {
+      const response = await fetch(API_ENDPOINTS.JOBS, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -331,7 +331,7 @@ function App() {
     if (!confirm('Bạn có chắc chắn muốn xóa việc làm này?')) return
     
     try {
-      const response = await fetch(`/api/jobs/${jobId}`, {
+      const response = await fetch(`${API_ENDPOINTS.JOBS}/${jobId}`, {
         method: 'DELETE'
       })
       
