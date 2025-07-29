@@ -50,7 +50,7 @@ function App() {
     {
       name: 'Nguyễn Văn An',
       position: 'Software Engineer tại TechCorp',
-      content: 'JobConnect đã giúp tôi tìm được công việc mơ ước chỉ trong 2 tuần. Giao diện thân thiện và nhiều cơ hội tuyệt vời!',
+      content: 'HHR Việt Nam đã giúp tôi tìm được công việc mơ ước chỉ trong 2 tuần. Giao diện thân thiện và nhiều cơ hội tuyệt vời!',
       rating: 5,
       avatar: '👨‍💻'
     },
@@ -78,7 +78,7 @@ function App() {
     {
       name: 'Hoàng Đức Minh',
       position: 'HR Director tại BigCorp',
-      content: 'JobConnect là đối tác tin cậy trong việc tuyển dụng nhân tài. Hiệu quả và tiết kiệm thời gian.',
+      content: 'HHR Việt Nam là đối tác tin cậy trong việc tuyển dụng nhân tài. Hiệu quả và tiết kiệm thời gian.',
       rating: 5,
       avatar: '👔'
     }
@@ -496,9 +496,9 @@ function App() {
         
         <div className="relative z-10 container mx-auto px-4 text-center text-white">
           <h2 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Kết nối cơ hội
+            HHR Việt Nam
             <span className="block bg-gradient-to-r from-blue-400 to-blue-200 bg-clip-text text-transparent">
-              nghề nghiệp
+              Kết nối nghề nghiệp
             </span>
           </h2>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
@@ -528,9 +528,9 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/80 via-white/70 to-indigo-50/80"></div>
         <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center">
           <div className="text-center mb-8">
-            <h3 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
-              Về chúng tôi
-            </h3>
+                      <h3 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700 mb-6">
+            Về HHR Việt Nam
+          </h3>
             <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mb-6 rounded-full"></div>
           </div>
           
@@ -881,7 +881,7 @@ function App() {
     <section className="h-screen bg-gray-50 overflow-y-auto">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-4xl font-bold text-gray-800">Việc làm nổi bật</h3>
+          <h3 className="text-4xl font-bold text-gray-800">Việc làm HHR Việt Nam</h3>
           <div className="flex gap-2">
             {isAdmin && (
               <>

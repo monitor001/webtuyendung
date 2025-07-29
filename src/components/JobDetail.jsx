@@ -218,27 +218,27 @@ const JobDetail = ({ job, onBack, onViewCompany, onJobUpdate, onJobDelete, isAdm
                     <span className="flex items-center">👁️ {job.views_count || 0} lượt xem</span>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                <div className="flex flex-wrap gap-2">
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm">
                     Ứng tuyển ngay
                   </button>
-                  <button className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                  <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm">
                     💾 Lưu
                   </button>
-                  <button className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                  <button className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm">
                     📤 Chia sẻ
                   </button>
                   {isAdmin && (
                     <>
                       <button 
                         onClick={handleEdit}
-                        className="px-6 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors"
+                        className="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors text-sm"
                       >
                         ✏️ Chỉnh sửa
                       </button>
                       <button 
                         onClick={handleDelete}
-                        className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
                       >
                         🗑️ Xóa
                       </button>

@@ -1,7 +1,7 @@
 {
-  "name": "jobconnect-backend",
+  "name": "hhr-backend",
   "version": "1.0.0",
-  "description": "Backend API for JobConnect Vietnam",
+  "description": "Backend API for HHR Việt Nam",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -24,6 +24,6 @@
     "jest": "^29.7.0"
   },
   "keywords": ["job-portal", "api", "postgresql"],
-  "author": "JobConnect Vietnam",
+  "author": "HHR Việt Nam",
   "license": "MIT"
 } 
