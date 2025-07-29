@@ -422,8 +422,19 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Cập nhật state local thay vì reload trang
-        setJobs(jobs.filter(job => job.id !== jobId))
+        // Cập nhật state local và sắp xếp lại danh sách
+        const updatedJobs = jobs.filter(job => job.id !== jobId)
+        setJobs(updatedJobs)
+        
+        // Nếu danh sách quá ít, tải thêm việc làm mới
+        if (updatedJobs.length < 3 && pagination.hasNext) {
+          fetchJobs(pagination.currentPage + 1, {
+            search: searchTerm,
+            location: locationFilter,
+            experience: experienceFilter
+          })
+        }
+        
         alert('Xóa việc làm thành công!')
       } else {
         console.error('Delete failed:', data.message)
@@ -450,10 +461,21 @@ function App() {
       
       const data = await response.json()
       if (data.success) {
-        // Cập nhật state local thay vì reload trang
-        setJobs(jobs.filter(job => !jobIds.includes(job.id)))
+        // Cập nhật state local và sắp xếp lại danh sách
+        const updatedJobs = jobs.filter(job => !jobIds.includes(job.id))
+        setJobs(updatedJobs)
         setSelectedJobs([])
         setIsSelectMode(false)
+        
+        // Nếu danh sách quá ít, tải thêm việc làm mới
+        if (updatedJobs.length < 3 && pagination.hasNext) {
+          fetchJobs(pagination.currentPage + 1, {
+            search: searchTerm,
+            location: locationFilter,
+            experience: experienceFilter
+          })
+        }
+        
         alert(`Đã xóa thành công ${jobIds.length} việc làm!`)
       } else {
         console.error('Delete failed:', data.message)
@@ -510,7 +532,17 @@ function App() {
   }
 
   const handleJobDelete = (jobId) => {
-    setJobs(jobs.filter(job => job.id !== jobId))
+    const updatedJobs = jobs.filter(job => job.id !== jobId)
+    setJobs(updatedJobs)
+    
+    // Nếu danh sách quá ít, tải thêm việc làm mới
+    if (updatedJobs.length < 3 && pagination.hasNext) {
+      fetchJobs(pagination.currentPage + 1, {
+        search: searchTerm,
+        location: locationFilter,
+        experience: experienceFilter
+      })
+    }
   }
 
   const handleViewCompanyDetail = (companyName) => {
