@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import heroBg from './assets/hero-bg.jpg'
-// import shrLogo from './assets/shr_vietnam_logo.svg'
+import shrLogo from './assets/shr_vietnam_logo.svg'
 // import aboutUsBg from './assets/about-us-bg.jpg'
 import JobDetail from './components/JobDetail'
 import CompanyDetail from './components/CompanyDetail'
@@ -555,8 +555,12 @@ function App() {
         <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex flex-col justify-center">
           <div className="text-center mb-8">
             <div className="flex justify-center items-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-2xl font-bold">SHR</span>
+              <div className="w-16 h-16 rounded-xl flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300 overflow-hidden">
+                <img 
+                  src={shrLogo} 
+                  alt="SHR Việt Nam Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-700">
                 Về SHR Việt Nam
@@ -825,8 +829,12 @@ function App() {
             {/* Company Info */}
             <div className="md:col-span-2">
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300">
-                  <span className="text-white text-xl font-bold">SHR</span>
+                <div className="w-12 h-12 rounded-lg flex items-center justify-center mr-4 hover:scale-110 transition-transform duration-300 overflow-hidden">
+                  <img 
+                    src={shrLogo} 
+                    alt="SHR Việt Nam Logo" 
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
@@ -1174,8 +1182,12 @@ function App() {
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-lg sm:text-xl font-bold">SHR</span>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center hover:scale-110 transition-transform duration-300 overflow-hidden">
+                <img 
+                  src={shrLogo} 
+                  alt="SHR Việt Nam Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
                 SHR Việt Nam
