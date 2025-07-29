@@ -544,7 +544,7 @@ function App() {
                 <div className="space-y-4 text-gray-800 leading-relaxed stagger-animation">
                   <div className="bg-gradient-to-r from-blue-50/60 to-indigo-50/60 backdrop-blur-sm p-6 rounded-2xl border-l-4 border-blue-500 hover:scale-105 transition-transform duration-300">
                     <p className="text-lg font-semibold leading-relaxed">
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">JobConnect Vietnam</span> là công ty tuyển dụng hàng đầu Việt Nam, 
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 font-bold animate-pulse-slow">HHR Vietnam</span> là công ty tuyển dụng hàng đầu Việt Nam, 
                       chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
                     </p>
                   </div>
@@ -616,7 +616,7 @@ function App() {
                 <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-blue-600 hover:scale-105 hover:-translate-y-2">
                   <div className="text-5xl mb-4 animate-bounce-in">🏆</div>
                   <h5 className="text-xl font-bold mb-3 text-blue-600">Giải thưởng xuất sắc</h5>
-                  <p className="text-gray-600">Top 3 nền tảng tuyển dụng được yêu thích nhất Việt Nam 2024</p>
+                  <p className="text-gray-600">Nền tảng tuyển dụng được tin cậy của các đối tác</p>
                 </div>
                 
                 <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-red-600 hover:scale-105 hover:-translate-y-2">
@@ -628,7 +628,7 @@ function App() {
                 <div className="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-orange-500 hover:scale-105 hover:-translate-y-2">
                   <div className="text-5xl mb-4 animate-bounce-in">⭐</div>
                   <h5 className="text-xl font-bold mb-3 text-orange-500">Đánh giá cao</h5>
-                  <p className="text-gray-600">4.8/5 sao từ hơn 10,000 đánh giá của người dùng trên các nền tảng</p>
+                  <p className="text-gray-600">5/5 sao từ hơn 5,000 đánh giá của người tuyển dụng và nhà tuyển dụng</p>
                 </div>
               </div>
             </div>
@@ -748,7 +748,7 @@ function App() {
                       <div className="text-center">
                         <div className="text-6xl mb-2">📱</div>
                         <p className="text-sm text-gray-600 font-medium">QR Code</p>
-                        <p className="text-xs text-gray-500">JobConnect Vietnam</p>
+                        <p className="text-xs text-gray-500">HHR Vietnam</p>
                       </div>
                     </div>
                     
@@ -799,13 +799,13 @@ function App() {
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
-                    JobConnect Vietnam
+                    HHR Vietnam
                   </h3>
                   <p className="text-gray-400">Kết nối tài năng với cơ hội</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6 leading-relaxed">
-                JobConnect Vietnam là nền tảng tuyển dụng hàng đầu Việt Nam, 
+                HHR Vietnam là nền tảng tuyển dụng hàng đầu Việt Nam, 
                 chuyên kết nối các ứng viên tài năng với những cơ hội nghề nghiệp phù hợp nhất.
               </p>
               <div className="flex space-x-4">
@@ -863,7 +863,7 @@ function App() {
           <div className="border-t border-gray-700 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                © 2024 JobConnect Vietnam. Tất cả quyền được bảo lưu.
+                © 2025 HHR Vietnam. Tất cả quyền được bảo lưu.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a href="#" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">Chính sách bảo mật</a>
@@ -1147,7 +1147,7 @@ function App() {
                 <span className="text-white text-2xl">👥</span>
               </div>
               <h1 className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
-                JobConnect
+                HHR Việt Nam
               </h1>
             </div>
             
