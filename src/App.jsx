@@ -1170,25 +1170,25 @@ function App() {
       <div className="pt-24">
       {/* Header */}
       <header className="bg-white/90 backdrop-blur-md shadow-lg fixed top-0 left-0 right-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl font-bold">SHR</span>
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl flex items-center justify-center hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-lg sm:text-xl font-bold">SHR</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">
                 SHR Việt Nam
               </h1>
             </div>
             
-            <nav className="hidden md:flex space-x-10">
+            <nav className="hidden md:flex space-x-6 lg:space-x-10">
               <button 
                 onClick={() => {
                   setCurrentPage('home');
                   setActiveSection('home');
                   document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                className={`text-base lg:text-lg font-semibold px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                   currentPage === 'home' && activeSection === 'home'
                     ? 'text-blue-600 bg-blue-50 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1202,7 +1202,7 @@ function App() {
                   setActiveSection('about');
                   document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                className={`text-base lg:text-lg font-semibold px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                   currentPage === 'home' && activeSection === 'about'
                     ? 'text-blue-600 bg-blue-50 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1216,7 +1216,7 @@ function App() {
                   setActiveSection('achievements');
                   document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                className={`text-base lg:text-lg font-semibold px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                   currentPage === 'home' && activeSection === 'achievements'
                     ? 'text-blue-600 bg-blue-50 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1230,7 +1230,7 @@ function App() {
                   setActiveSection('contact');
                   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                className={`text-base lg:text-lg font-semibold px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                   currentPage === 'home' && activeSection === 'contact'
                     ? 'text-white bg-blue-600 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1240,7 +1240,7 @@ function App() {
               </button>
               <button 
                 onClick={() => setCurrentPage('jobs')}
-                className={`text-lg font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
+                className={`text-base lg:text-lg font-semibold px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 ${
                   currentPage === 'jobs' 
                     ? 'text-blue-600 bg-blue-50 shadow-md' 
                     : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1248,9 +1248,21 @@ function App() {
               >
                 Việc làm
               </button>
-            </nav>
-
-            <div className="flex items-center space-x-4 relative">
+                        </nav>
+            
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+                <span className={`block w-5 h-0.5 bg-gray-700 transition-all duration-300 mt-1 ${isMenuOpen ? '-rotate-45 -translate-y-1' : ''}`}></span>
+              </div>
+            </button>
+            
+            <div className="flex items-center space-x-2 sm:space-x-4 relative">
               {!isAdmin ? (
                 <div className="relative admin-login-container">
                   <button 
@@ -1262,15 +1274,15 @@ function App() {
                         setLoginError('')
                       }
                     }}
-                    className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+                    className="px-3 sm:px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors text-sm sm:text-base"
                   >
                     Admin
                   </button>
                   
                   {/* Admin Login Form - Hiển thị phía dưới button */}
                   {showAdminLogin && (
-                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl p-4 w-80 z-50">
-                      <h3 className="text-lg font-semibold mb-3 text-gray-800">Đăng nhập Admin</h3>
+                    <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl p-4 w-72 sm:w-80 z-50">
+                      <h3 className="text-base sm:text-lg font-semibold mb-3 text-gray-800">Đăng nhập Admin</h3>
                       
                       {loginError && (
                         <div className="mb-3 p-2 bg-red-100 border border-red-300 text-red-700 rounded text-sm">
@@ -1280,7 +1292,7 @@ function App() {
                       
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                             Email
                           </label>
                           <input
@@ -1288,12 +1300,12 @@ function App() {
                             placeholder="admindemo@gmail.com"
                             value={adminEmail}
                             onChange={(e) => setAdminEmail(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm"
                           />
                         </div>
                         
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                          <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                             Mật khẩu
                           </label>
                           <input
@@ -1301,7 +1313,7 @@ function App() {
                             placeholder="Admin123"
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                            className="w-full px-2 sm:px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm"
                           />
                         </div>
                         
@@ -1309,13 +1321,13 @@ function App() {
                           <button
                             onClick={handleAdminLogin}
                             disabled={loginLoading || !adminEmail || !adminPassword}
-                            className="flex-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                            className="flex-1 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm"
                           >
                             {loginLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
                           </button>
                           <button
                             onClick={() => setShowAdminLogin(false)}
-                            className="flex-1 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
+                            className="flex-1 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-xs sm:text-sm"
                           >
                             Hủy
                           </button>
@@ -1327,7 +1339,7 @@ function App() {
               ) : (
                 <button 
                   onClick={handleAdminLogout}
-                  className="px-4 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 transition-colors"
+                  className="px-3 sm:px-4 py-2 border border-red-600 text-red-600 rounded-md hover:bg-red-50 transition-colors text-sm sm:text-base"
                 >
                   Đăng xuất Admin
                 </button>
@@ -1338,7 +1350,7 @@ function App() {
           {/* Mobile Menu */}
           {isMenuOpen && (
             <div className="md:hidden mt-4 pb-4 border-t">
-              <nav className="flex flex-col space-y-3 pt-4">
+              <nav className="flex flex-col space-y-2 sm:space-y-3 pt-4">
                 <button 
                   onClick={() => {
                     setCurrentPage('home'); 
@@ -1346,7 +1358,7 @@ function App() {
                     setIsMenuOpen(false);
                     document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`text-left text-base sm:text-lg font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
                     currentPage === 'home' && activeSection === 'home'
                       ? 'text-blue-600 bg-blue-50 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1361,7 +1373,7 @@ function App() {
                     setIsMenuOpen(false);
                     document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`text-left text-base sm:text-lg font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
                     currentPage === 'home' && activeSection === 'about'
                       ? 'text-blue-600 bg-blue-50 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1376,7 +1388,7 @@ function App() {
                     setIsMenuOpen(false);
                     document.getElementById('achievements').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`text-left text-base sm:text-lg font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
                     currentPage === 'home' && activeSection === 'achievements'
                       ? 'text-blue-600 bg-blue-50 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1391,7 +1403,7 @@ function App() {
                     setIsMenuOpen(false);
                     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`text-left text-base sm:text-lg font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
                     currentPage === 'home' && activeSection === 'contact'
                       ? 'text-white bg-blue-600 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
@@ -1401,7 +1413,7 @@ function App() {
                 </button>
                 <button 
                   onClick={() => {setCurrentPage('jobs'); setIsMenuOpen(false)}}
-                  className={`text-left text-lg font-semibold px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`text-left text-base sm:text-lg font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 hover:scale-105 ${
                     currentPage === 'jobs' 
                       ? 'text-blue-600 bg-blue-50 shadow-md' 
                       : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
