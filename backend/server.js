@@ -378,8 +378,8 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
-// POST add new job (Admin only)
-app.post('/api/jobs', authenticateToken, async (req, res) => {
+// POST add new job (No authentication required)
+app.post('/api/jobs', async (req, res) => {
   try {
     const { 
       title, 
