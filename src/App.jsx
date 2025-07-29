@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import heroBg from './assets/hero-bg.jpg'
-import aboutUsBg from './assets/about-us-bg.jpg'
+// import aboutUsBg from './assets/about-us-bg.jpg'
 import JobDetail from './components/JobDetail'
 import CompanyDetail from './components/CompanyDetail'
 import AddJobForm from './components/AddJobForm'
@@ -427,7 +427,6 @@ function App() {
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-50 transform scale-110"
           style={{ 
-            backgroundImage: `url(${aboutUsBg})`,
             backgroundAttachment: 'fixed'
           }}
         ></div>
