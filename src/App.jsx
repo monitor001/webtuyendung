@@ -7,6 +7,7 @@ import JobDetail from './components/JobDetail'
 import CompanyDetail from './components/CompanyDetail'
 import AddJobForm from './components/AddJobForm'
 import { API_ENDPOINTS } from './config'
+import ApplyModal from './components/ApplyModal'
 
 function App() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
@@ -47,6 +48,10 @@ function App() {
   const [isTyping, setIsTyping] = useState(false)
   const [typedText, setTypedText] = useState('')
   const [showAnimations, setShowAnimations] = useState(false)
+
+  // Thêm state quản lý modal ứng tuyển ngoài danh sách
+  const [showApplyModal, setShowApplyModal] = useState(false)
+  const [applyJob, setApplyJob] = useState(null)
 
   const testimonials = [
     {
@@ -1174,6 +1179,13 @@ function App() {
                       >
                         Xem công ty
                       </button>
+                      {/* Nút ứng tuyển ngay ngoài thẻ */}
+                      <button
+                        onClick={() => { setApplyJob(job); setShowApplyModal(true); }}
+                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                      >
+                        Ứng tuyển ngay
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1514,6 +1526,14 @@ function App() {
         <AddJobForm 
           onClose={() => setShowAddJobForm(false)}
           onJobAdded={handleJobAdded}
+        />
+      )}
+
+      {/* Modal ứng tuyển ngoài danh sách */}
+      {showApplyModal && applyJob && (
+        <ApplyModal
+          job={applyJob}
+          onClose={() => { setShowApplyModal(false); setApplyJob(null); }}
         />
       )}
 
