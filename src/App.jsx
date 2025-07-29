@@ -863,7 +863,7 @@ function App() {
                 <li><a href="#about" className="text-gray-300 hover:text-blue-400 transition-colors">Về chúng tôi</a></li>
                 <li><a href="#achievements" className="text-gray-300 hover:text-blue-400 transition-colors">Thành tựu</a></li>
                 <li><a href="#contact" className="text-gray-300 hover:text-blue-400 transition-colors">Liên hệ</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-blue-400 transition-colors">Việc làm</a></li>
+                <li><a href="#jobs" onClick={() => setCurrentPage('jobs')} className="text-gray-300 hover:text-blue-400 transition-colors">Việc làm</a></li>
               </ul>
             </div>
 
