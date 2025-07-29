@@ -372,6 +372,15 @@ function App() {
     setCurrentPage('jobDetail')
   }
 
+  const handleJobUpdate = (updatedJob) => {
+    setSelectedJob(updatedJob)
+    setJobs(jobs.map(job => job.id === updatedJob.id ? updatedJob : job))
+  }
+
+  const handleJobDelete = (jobId) => {
+    setJobs(jobs.filter(job => job.id !== jobId))
+  }
+
   const handleViewCompanyDetail = (companyName) => {
     // In a real app, you'd fetch company data from an API
     // For now, we'll use a placeholder or mock data
@@ -1054,7 +1063,7 @@ function App() {
                           </label>
                           <input
                             type="email"
-                            placeholder="hoanguyen25@gmail.com"
+                            placeholder="admindemo@gmail.com"
                             value={adminEmail}
                             onChange={(e) => setAdminEmail(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
@@ -1067,7 +1076,7 @@ function App() {
                           </label>
                           <input
                             type="password"
-                            placeholder="Ab123456#"
+                            placeholder="Admin123"
                             value={adminPassword}
                             onChange={(e) => setAdminPassword(e.target.value)}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
@@ -1088,11 +1097,6 @@ function App() {
                           >
                             Hủy
                           </button>
-                        </div>
-                        
-                        <div className="text-xs text-gray-500 mt-2">
-                          <p><strong>Email:</strong> hoanguyen25@gmail.com</p>
-                          <p><strong>Mật khẩu:</strong> Ab123456#</p>
                         </div>
                       </div>
                     </div>
@@ -1178,9 +1182,16 @@ function App() {
       {/* Main Content */}
       {currentPage === 'home' && renderHomePage()}
       {currentPage === 'jobs' && renderJobsPage()}
-      {currentPage === 'jobDetail' && selectedJob && (
-        <JobDetail job={selectedJob} onBack={() => setCurrentPage('jobs')} onViewCompany={handleViewCompanyDetail} />
-      )}
+              {currentPage === 'jobDetail' && selectedJob && (
+          <JobDetail 
+            job={selectedJob} 
+            onBack={() => setCurrentPage('jobs')} 
+            onViewCompany={handleViewCompanyDetail}
+            onJobUpdate={handleJobUpdate}
+            onJobDelete={handleJobDelete}
+            isAdmin={isAdmin}
+          />
+        )}
       {currentPage === 'companyDetail' && selectedCompany && (
         <CompanyDetail 
           company={selectedCompany} 

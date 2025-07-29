@@ -355,6 +355,72 @@ app.get('/api/companies', async (req, res) => {
   }
 });
 
+// GET company by name
+app.get('/api/companies/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const query = 'SELECT * FROM companies WHERE name = $1';
+    const result = await pool.query(query, [decodeURIComponent(name)]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Company not found' });
+    }
+    
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error fetching company:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// PUT update company
+app.put('/api/companies/:name', async (req, res) => {
+  try {
+    const { name } = req.params;
+    const { 
+      description, 
+      industry, 
+      size, 
+      founded_year, 
+      location, 
+      website, 
+      email, 
+      phone 
+    } = req.body;
+
+    const query = `
+      UPDATE companies SET 
+        description = $1, industry = $2, size = $3, founded_year = $4,
+        location = $5, website = $6, email = $7, phone = $8
+      WHERE name = $9
+      RETURNING *
+    `;
+
+    const values = [
+      description || null,
+      industry || null,
+      size || null,
+      founded_year || null,
+      location || null,
+      website || null,
+      email || null,
+      phone || null,
+      decodeURIComponent(name)
+    ];
+
+    const result = await pool.query(query, values);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Company not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating company:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // GET job statistics
 app.get('/api/stats', async (req, res) => {
   try {
@@ -432,6 +498,85 @@ app.post('/api/jobs', async (req, res) => {
     });
   } catch (error) {
     console.error('Error adding job:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// PUT update job
+app.put('/api/jobs/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { 
+      title, 
+      company_name, 
+      location, 
+      salary_min, 
+      salary_max, 
+      job_type, 
+      experience_level, 
+      description, 
+      requirements, 
+      benefits,
+      deadline_date 
+    } = req.body;
+
+    // Validate required fields
+    if (!title || !company_name || !location || !job_type || !experience_level || !description) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Validate salary range
+    if (salary_min && salary_max && parseInt(salary_min) > parseInt(salary_max)) {
+      return res.status(400).json({ error: 'Minimum salary cannot be greater than maximum salary' });
+    }
+
+    const query = `
+      UPDATE jobs SET 
+        title = $1, company_name = $2, location = $3, salary_min = $4, salary_max = $5,
+        job_type = $6, experience_level = $7, description = $8, requirements = $9,
+        benefits = $10, deadline_date = $11, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $12
+      RETURNING *
+    `;
+
+    const values = [
+      title, company_name, location, 
+      salary_min ? parseInt(salary_min) : null, 
+      salary_max ? parseInt(salary_max) : null,
+      job_type, experience_level, description, 
+      requirements || null, benefits || null, 
+      deadline_date ? new Date(deadline_date) : null,
+      id
+    ];
+
+    const result = await pool.query(query, values);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating job:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// DELETE job
+app.delete('/api/jobs/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const query = 'DELETE FROM jobs WHERE id = $1 RETURNING *';
+    const result = await pool.query(query, [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+    res.json({ success: true, message: 'Job deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting job:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
