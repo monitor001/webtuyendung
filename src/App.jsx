@@ -78,10 +78,10 @@ function App() {
     { number: '10,000+', label: 'Việc làm đã đăng', icon: '📈', color: 'text-blue-600' }
   ]
 
-  // Check admin status on load
-  useEffect(() => {
-    checkAdminStatus()
-  }, [])
+  // Check admin status on load - disabled for now
+  // useEffect(() => {
+  //   checkAdminStatus()
+  // }, [])
 
   // Click outside to close admin login form
   useEffect(() => {
@@ -145,6 +145,8 @@ function App() {
         setAdminEmail('')
         setAdminPassword('')
         setLoginError('')
+        // Refresh page to update admin status
+        window.location.reload()
       } else {
         setLoginError(data.error || 'Đăng nhập thất bại')
       }
